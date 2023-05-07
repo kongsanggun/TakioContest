@@ -1,15 +1,18 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { validate } from './config/env.validation';
 
-import { EntryModule } from './entry/entry.module';
+import { APP_FILTER } from '@nestjs/core';
+import { validate } from './config/env.validation';
+import { ExceptionHandler } from './common/ExceptionHandler';
+
+import { CompeModule } from './compe/compe.module';
+import { ConInfoModule } from './conInfo/conInfo.module';
+import { EntrantModule } from './entrant/entrant.module';
+import { AuthModule } from './auth/auth.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { APP_FILTER } from '@nestjs/core';
-import { ExceptionHandler } from './common/ExceptionHandler';
 
 @Module({
   imports: [
@@ -31,7 +34,10 @@ import { ExceptionHandler } from './common/ExceptionHandler';
       }),
       inject: [ConfigService],
     }),
-    EntryModule,
+    AuthModule,
+    CompeModule,
+    ConInfoModule,
+    EntrantModule,
   ],
   controllers: [AppController],
   providers: [

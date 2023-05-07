@@ -1,0 +1,32 @@
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
+
+import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { CompeService } from './compe.service';
+import { UpdateCompeDto } from './dto/updateCompe.dto';
+
+import { AuthGuard } from 'src/common/authGuard.controller';
+
+@UseFilters(ExceptionHandler)
+@Controller('admin/raking')
+export class CompeController {
+  constructor(private readonly compeService: CompeService) {}
+
+  @UseGuards(AuthGuard)
+  @Get('')
+  async getEntry(): Promise<any> {
+    return await this.compeService.getCompe();
+  } // 대회 정보를 표시한다.
+
+  @UseGuards(AuthGuard)
+  @Post('')
+  async createEntry(@Body() dto: UpdateCompeDto): Promise<any> {
+    return await this.compeService.postCompe(dto);
+  } // 대회 정보를 수정한다.
+}

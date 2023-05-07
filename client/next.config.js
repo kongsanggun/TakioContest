@@ -11,6 +11,10 @@ module.exports = {
 				source: "/entry/:path*",
 				destination: "http://localhost:8000/entry/:path*",
       },
+      {
+				source: "/admin/user",
+				destination: "http://localhost:8000/entry/admin",
+      }
     ]
   }
 }

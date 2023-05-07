@@ -1,8 +1,8 @@
 import { entryType } from '../../common/enums/entryType';
 import { Entity, Column, PrimaryColumn, IntegerType } from 'typeorm';
 
-@Entity('entry')
-export class Entry {
+@Entity('entrant')
+export class Entrant {
   @PrimaryColumn({
     name: 'taiko_id',
     length: 12,

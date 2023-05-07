@@ -1,11 +1,19 @@
-import { entryType } from '../../common/enums/entryType';
-import { IsEnum, IsString, IsDate, Length, MaxLength } from 'class-validator';
+import { IntegerType } from 'typeorm';
+import { entryType } from '../../../common/enums/entryType';
+import {
+  IsEnum,
+  IsString,
+  IsDate,
+  Length,
+  MaxLength,
+  IsInt,
+} from 'class-validator';
 
 /* 
-  입력된 참가자를 등록합니다.
+  참가자의 정보를 수정합니다.
 */
 
-export class CreateEntryDto {
+export class UpdateEntrantDto {
   @IsString()
   @Length(12)
   taikoId: string; // 태고 북 번호
@@ -21,6 +29,15 @@ export class CreateEntryDto {
   @IsEnum(entryType)
   @MaxLength(10)
   entryType: entryType; // 참가리그
+
+  @IsInt()
+  songScore1: IntegerType; // 점수
+
+  @IsInt()
+  songScore2: IntegerType; // 점수
+
+  @IsInt()
+  songScore3: IntegerType; // 점수
 
   @IsDate()
   entryAt: Date; // 참가 시점

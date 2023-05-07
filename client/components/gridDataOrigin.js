@@ -62,6 +62,7 @@ export default function GridData() {
         readData: { url: "/entry/origin", method: "GET" },
       },
       headers: {
+        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
     };
