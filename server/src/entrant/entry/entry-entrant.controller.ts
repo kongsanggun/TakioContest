@@ -10,7 +10,7 @@ import { EntryService } from './entry-entrant.service';
 export class EntryController {
   constructor(private readonly entryService: EntryService) {}
 
-  @Post('')
+  @Post('create')
   async createEntry(@Body() dto: CreateEntrantDto): Promise<any> {
     return await this.entryService.createEntrant(dto);
   } // 참가자를 등록한다.

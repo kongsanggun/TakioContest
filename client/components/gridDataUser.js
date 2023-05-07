@@ -16,8 +16,8 @@ export default function GridDatas() {
     const dataSource = {
       contentType: "application/json",
       api: {
-        readData: { url: "/entry/admin", method: "GET" },
-        modifyData: { url: "/entry/admin", method: "POST" },
+        readData: { url: "/admin/entry", method: "GET" },
+        modifyData: { url: "/admin/entry", method: "POST" },
       },
       headers: {
         "Access-Control-Allow-Origin": "*",

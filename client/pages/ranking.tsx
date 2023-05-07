@@ -18,13 +18,18 @@ export default function Entry() {
     },[]);
 
 
-    const Origin = dynamic(
-        () => import('../components/gridDataOrigin'),
+    const OriginGird = dynamic(
+        () => import('../components/gird/gridDataOrigin'),
+        { ssr: false }
+    )
+
+    const OriginBar= dynamic(
+        () => import('../components/bar/barDataOrigin'),
         { ssr: false }
     )
 
     const Chogosu = dynamic(
-        () => import('../components/gridDataChogosu'),
+        () => import('../components/gird/gridDataChogosu'),
         { ssr: false }
     )
 
@@ -56,7 +61,8 @@ export default function Entry() {
                 <div className="w-[70vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
                     <div className='text-5xl mb-10 font-bold w-[auto] h-auto'>참가자 랭킹</div>
                     <SubManu />
-                    {mode ? <Origin/> : <Chogosu/>}
+                    <OriginBar/>
+                    {mode ? <OriginGird/> : <Chogosu/>}
                 </div>
             </div>
             <Footer />

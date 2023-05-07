@@ -10,6 +10,7 @@ import { CompeModule } from './compe/compe.module';
 import { ConInfoModule } from './conInfo/conInfo.module';
 import { EntrantModule } from './entrant/entrant.module';
 import { AuthModule } from './auth/auth.module';
+import { CrawlerModule } from './crawler/crawler.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -38,6 +39,7 @@ import { AppService } from './app.service';
     CompeModule,
     ConInfoModule,
     EntrantModule,
+    CrawlerModule,
   ],
   controllers: [AppController],
   providers: [

@@ -25,7 +25,7 @@ export default function GridData() {
 
   async function initBar() {
     try {
-      const setBar = await fetch(`/entry/chogosu`, {
+      const setBar = await fetch(`/ranking/chogosu`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export default function GridData() {
     const dataSource = {
       contentType: "application/json",
       api: {
-        readData: { url: "/entry/chogosu", method: "GET" },
+        readData: { url: "/ranking/chogosu", method: "GET" },
       },
       headers: {
         "Access-Control-Allow-Origin": "*",
