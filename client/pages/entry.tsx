@@ -8,9 +8,13 @@ import ModalAlert from "../components/alert/modalAlert"
 export default function Entry() {
     const [openAlert, setOpenAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
-    
+
     const onModalAlert = () => {
+        let HTML = document.querySelector('html');
         setOpenAlert(!openAlert);
+        if (HTML !== null) {
+            openAlert ? HTML.style.overflowY = "auto" : HTML.style.overflowY = "hidden";
+        }
     }
 
     const [inputs, setInputs] = useState({
@@ -87,7 +91,7 @@ export default function Entry() {
 
     const Radio = () => {
         return (
-            <div className='text-xl mb-5 p-2'>
+            <div className='text-base mb-6'>
                 <input
                     id="ORIGIN"
                     value="ORIGIN"
@@ -104,7 +108,7 @@ export default function Entry() {
                     type="radio"
                     checked={inputs.entryType === "CHO_GO_SU"}
                     onChange={onChange}
-                    className='ml-3'
+                    className='ml-5'
                 />
                 초고수 모드
             </div>
@@ -113,23 +117,27 @@ export default function Entry() {
 
     return (
         <>
-            {openAlert && <ModalAlert onOpenAlert={onModalAlert} data={alertMessage}/>}
+            {openAlert && <ModalAlert onOpenAlert={onModalAlert} data={alertMessage} />}
             <div className='bg-[#F9F9FB]'>
                 <Header />
-                <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
+                <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 flex flex-col items-center">
                     <div className="w-[70vw] my-6 sm:my-10 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
-                        <div className='text-3xl my-5 font-bold w-[auto]'>접수하기</div>
-                        <p className='text-xl mb-2 w-[full]'>Do the G 2023 대회를 접수합니다.</p>
-                        <div className='w-[full] h-auto my-5'>
-                            <p className='text-xl mb-3 w-[full]'>참가 모드를 선택해주세요.</p>
+                        <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
+                            <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">접수하기</div>
+                            <div>Do the G 2023 대회를 접수합니다.</div>
+                        </div>
+                        <div className='py-4 px-4 mt-5 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
+                            <p className='text-xl mb-4 w-[full]'>참가 모드를 선택해주세요.</p>
                             <Radio />
-                            <p className='text-xl mb-3 w-[full]'>참가자 이름을 알려주세요.</p>
-                            <input className='text-xl mb-5 p-2 w-[60vw] border-2 rounded-md' type="text" id="entryName" name="entryName" onChange={onChange} />
-                            <p className='text-xl mb-3 w-[full]'>참가자의 북번호를 알려주세요.</p>
-                            <input className='text-xl mb-5 p-2 w-[60vw] border-2 rounded-md' type="text" id="taikoId" name="taikoId" onChange={onChange} />
-                            <p className='text-xl mb-3 w-[full]'>참가자의 이메일 연락처를 알려주세요.</p>
-                            <input className='text-xl mb-10 p-2 w-[60vw] border-2 rounded-md' type="text" id="contacts" name="contacts" onChange={onChange} />
-                            <button className='text-xl p-3 mb-3 w-[15vw] h-auto bg-slate-500 rounded-md' type="submit" onClick={Submit}>Submit</button>
+                            <p className='text-xl mb-4 w-[full]'>참가자 이름을 알려주세요.</p>
+                            <input className='text-base mb-6 p-2 w-full border-2 rounded-md' type="text" id="entryName" name="entryName" onChange={onChange} />
+                            <p className='text-xl mb-4 w-[full]'>참가자의 북번호를 알려주세요. <span className='text-rose-600'>❓</span></p>
+                            <input className='text-base mb-6 p-2 w-full border-2 rounded-md' type="text" id="taikoId" name="taikoId" onChange={onChange} />
+                            <p className='text-xl mb-4 w-[full]'>참가자의 이메일 연락처를 알려주세요.</p>
+                            <input className='text-base mb-10 p-2 w-full border-2 rounded-md' type="text" id="contacts" name="contacts" onChange={onChange} />
+                            <div className='w-full h-auto mb-3 flex flex-col items-center'> 
+                            <button className='text-base p-3 w-[15vw] h-auto bg-slate-500 rounded-md' type="submit" onClick={Submit}>참가하기</button>
+                            </div>
                         </div>
                     </div>
                 </div>

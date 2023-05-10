@@ -10,7 +10,7 @@ const Header = () => {
 
     return (
         <header>
-            <div className="w-full h-16 sm:h-20 flex items-center justify-between border-b-[1.5px] border-b-[#BEC0D7]">
+            <div className="w-full h-16 sm:h-20 flex items-center justify-between border-b-[0.5px] border-b-[#BEC0D7]">
                 <div className='w-[10vw] h-full'> </div>
                 <div className='w-[80vw] h-full text-[#121316] flex items-center justify-center font-["SDKukdetopokki-Lt"] font- duration-200'>
                     <Link className="w-auto h-full text-xl sm:text-2xl mr-5 ml-5 sm:mr-8 sm:ml-8 flex items-center text-center justify-center hover:text-[#245A8D] hover:border-b-8 hover:border-[#245A8D] duration-150" href="/">Main</Link>
