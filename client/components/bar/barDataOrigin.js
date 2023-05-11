@@ -66,14 +66,20 @@ export default function BarData() {
       ],
     };
     const options = {
-      chart: { width: '100%', height: 700 },
+      chart: {
+        width: "100%",
+        height: "30vh",
+        animation: {
+          duration: 1500,
+        },
+      },
       legend: {
-        align: 'bottom',
+        align: "bottom",
         showCheckbox: false,
       },
       series: {
         stack: true,
-        dataLabels: { visible: true }
+        dataLabels: { visible: true },
       },
       xAxis: {
         scale: {
@@ -82,26 +88,33 @@ export default function BarData() {
           stepSize: 250000,
         },
         tick: {
-            interval: 1,
+          interval: 1,
         },
         label: {
-            interval: 4,
+          interval: 4,
         },
       },
       theme: {
         series: {
-            colors: ['#FF0000', '#FFFF00', '#03FF00'], 
+          barWidth: 40,
+          colors: ["#FF0000", "#FFFF00", "#03FF00"],
+        },
+        xAxis: {
+            margin: 40,
+            color: '#BEC0D7',
         },
         yAxis: {
-            label: {
-              fontFamily: 'SDKukdetopokki-Lt',
-            },
-            width: 1.5,
+          label: {
+            fontFamily: "SDKukdetopokki-Lt",
+          },
+          width: 1,
+          margin: 50,
+          color: '#BEC0D7',
         },
       },
       exportMenu: {
-        visible: false
-      }
+        visible: false,
+      },
     };
 
     const chart = Chart.barChart({ el, data, options });
@@ -109,13 +122,15 @@ export default function BarData() {
 
   const RankMain = () => {
     return (
-      <div className="w-full h-auto mb-10 pb-8 border-b-[1.5px] border-b-[#BEC0D7]">
-        <p className="text-xl mb-2 w-[full]">기간 : 0000-00-00 ~ 0000-00-00</p>
-        <p className="text-xl mb-2 w-[full]">
+      <div className="w-full h-auto">
+        <p className="text-base mb-2 w-[full]">
+          기간 : 0000-00-00 ~ 0000-00-00
+        </p>
+        <p className="text-base mb-4 w-[full]">
           참가자 수 : {size}명
           <br />
         </p>
-        <p className="text-xl mb-2 w-[full]">
+        <p className="text-base mb-2 w-[full]">
           랭킹 갱신은 매일 06:00에 갱신됩니다.
         </p>
       </div>
@@ -123,9 +138,9 @@ export default function BarData() {
   };
 
   return (
-    <div className="mt-10 mb-8">
-        <RankMain />
-        <div id="chart" className="text-xs w-full h-auto"></div>
+    <div className="my-6">
+      <RankMain />
+      <div id="chart" className="text-xs w-full h-[30vh]"></div>
     </div>
   );
 }

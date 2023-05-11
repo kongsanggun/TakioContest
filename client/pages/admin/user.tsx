@@ -2,12 +2,31 @@ import AdminHeader from '../../components/adminHeader';
 import Footer from '../../components/footer';
 
 import dynamic from 'next/dynamic'
+import Router from "next/router";
 import React, { useState, useEffect } from "react";
 
 export default function Admin() {
 
     useEffect(() => {
+        auth();
     },[]);
+
+    async function auth() {
+        let response = await fetch(`/auth/admin`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Bearer": "",
+            },
+        })
+
+        console.log(response.status);
+
+        if (response.status == 401) {
+            Router.push("/login");
+        }
+    }
 
     const GridData = dynamic(
         () => import('../../components/gridDataUser'),

@@ -17,18 +17,22 @@ export default function Entry() {
     useEffect(() => {
     },[]);
 
+    const OriginBar= dynamic(
+        () => import('../components/bar/barDataOrigin'),
+        { ssr: false }
+    )
 
     const OriginGird = dynamic(
         () => import('../components/gird/gridDataOrigin'),
         { ssr: false }
     )
 
-    const OriginBar= dynamic(
-        () => import('../components/bar/barDataOrigin'),
+    const ChogosuBar = dynamic(
+        () => import('../components/bar/barDataChogosu'),
         { ssr: false }
     )
 
-    const Chogosu = dynamic(
+    const ChogosuGird = dynamic(
         () => import('../components/gird/gridDataChogosu'),
         { ssr: false }
     )
@@ -59,10 +63,13 @@ export default function Entry() {
             <Header />
             <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
                 <div className="w-[70vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className='text-5xl mb-10 font-bold w-[auto] h-auto'>참가자 랭킹</div>
+                    <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
+                        <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">참가자 랭킹</div>
+                        <div>Do the G 2023 대회의 랭킹입니다.</div>
+                    </div>
                     <SubManu />
-                    <OriginBar/>
-                    {mode ? <OriginGird/> : <Chogosu/>}
+                    {mode ? <OriginBar/> : <ChogosuBar/>}
+                    {mode ? <OriginGird/> : <ChogosuGird/>}
                 </div>
             </div>
             <Footer />

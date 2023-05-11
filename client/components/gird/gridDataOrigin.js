@@ -4,7 +4,6 @@ import Grid from "tui-grid";
 import "tui-grid/dist/tui-grid.css";
 
 export default function GridData() {
-
   async function initGrid() {
     const dataSource = {
       contentType: "application/json",
@@ -47,6 +46,20 @@ export default function GridData() {
           name: "ranking",
           width: 10,
           align: "center",
+          renderer: {
+            styles: {
+              fontWeight: "bold",
+              color: (props) =>
+                Number(props.value) == 1
+                  ? "#F0B45E"
+                  : Number(props.value) == 2
+                  ? "#435F7A"
+                  : Number(props.value) == 3
+                  ? "#AD5601"
+                  : "#FFF",
+            },
+            classNames: ["my-styled-cell"],
+          },
         },
         {
           name: "entryName",
@@ -87,7 +100,5 @@ export default function GridData() {
     initGrid();
   }, []);
 
-  return (
-    <div id="grid" className="text-xs w-full h-auto"></div>
-  );
+  return <div id="grid" className="text-xs w-full h-auto"></div>;
 }

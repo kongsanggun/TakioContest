@@ -18,11 +18,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
+    console.log(signInDto);
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 
   @UseGuards(AuthGuard)
-  @Get('profile')
+  @Get('admin')
   getProfile(@Request() req) {
     return req.user;
   }
