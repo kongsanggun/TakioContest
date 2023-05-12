@@ -3,15 +3,26 @@ import Footer from '../components/footer';
 
 import Router from "next/router";
 import React, { useRef, useState } from "react";
-import ModalAlert from "../components/alert/modalAlert"
+import ModalAlert from "../components/alert/modalAlert";
+import NualmotAlert from "../components/alert/nualmotAlert";
 
 export default function Entry() {
     const [openAlert, setOpenAlert] = useState(false);
+    const [openSnom, setOpenSnom] = useState(false);
+    const [yes, setyes] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
 
     const onModalAlert = () => {
         let HTML = document.querySelector('html');
         setOpenAlert(!openAlert);
+        if (HTML !== null) {
+            openAlert ? HTML.style.overflowY = "auto" : HTML.style.overflowY = "hidden";
+        }
+    }
+
+    const onSnomAlert = () => {
+        let HTML = document.querySelector('html');
+        setOpenSnom(!openSnom);
         if (HTML !== null) {
             openAlert ? HTML.style.overflowY = "auto" : HTML.style.overflowY = "hidden";
         }
@@ -32,18 +43,59 @@ export default function Entry() {
         });
     };
 
+    const vaild = () => {
+        if (inputs.entryType === null || inputs.entryType === "") {
+            setAlertMessage("모드를 선택해주세요.");
+            return false;
+        }
+
+        if (inputs.entryName === null || inputs.entryName === "") {
+            setAlertMessage("참가자 이름을 입력해주세요.");
+            return false;
+        }
+
+        if (inputs.entryName.length > 10) {
+            setAlertMessage("이름을 10글자 이하로 적어주세요.");
+            return false;
+        }
+
+        if (inputs.taikoId === null || inputs.taikoId === "") {
+            setAlertMessage("북번호를 입력해주세요.");
+            return false;
+        }
+
+        if (inputs.taikoId.length !== 12) {
+            setAlertMessage("참가자의 북번호는 숫자로 12글자여야합니다.");
+            return false;
+        }
+
+        return true;
+    } // 유효성 검사
+
+    const snomVaild = () => {
+        const snom = inputs.entryName.includes('누니머기');
+        const ass = inputs.entryName.includes('엉덩이') || inputs.entryName.includes('궁뎅이') || inputs.entryName.includes('빵뎅이') || inputs.entryName.includes('오시리') || inputs.entryName.includes('둔부');
+        const not = inputs.entryName.includes('아니') || inputs.entryName.includes('아님') || inputs.entryName.includes('다르')
+        const NG = inputs.entryName.includes('누엉')
+
+        if (snom && ass && !not ) {
+            return false;
+        }
+
+        if(NG) return false;
+
+        return true;
+    } // 누잘알 검사
+
     async function Submit(e: any) {
         try {
-            // TODO : POST 전 유효성 검사
 
-            if (inputs.entryName.length > 10) {
-                setAlertMessage("이름을 10글자 이하로 적어주세요.");
+            if(!vaild()) {
                 throw Error();
             }
 
-            if (inputs.taikoId.length !== 12) {
-                setAlertMessage("참가자의 북번호는 숫자로 12글자여야합니다.");
-                throw Error();
+            if(!snomVaild()) {
+                const re = setOpenSnom(!openSnom);
             }
 
             const today = new Date();
@@ -118,6 +170,7 @@ export default function Entry() {
     return (
         <>
             {openAlert && <ModalAlert onOpenAlert={onModalAlert} data={alertMessage} />}
+            {openSnom && <NualmotAlert onOpenAlert={onSnomAlert}/>}
             <div className='bg-[#F9F9FB]'>
                 <Header />
                 <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 flex flex-col items-center">
