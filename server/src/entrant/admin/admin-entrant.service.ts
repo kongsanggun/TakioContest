@@ -70,12 +70,28 @@ export class AdminService {
   }
 
   // Post : 대회 정보 수정
-  async postEntrant(dto: UpdateEntrantDto) {
-    await this.postInfo(dto);
+  async postEntrant(dto: any) {
+    // await this.postInfo(dto); // 추가
+    await this.updatePost(dto.updatedRows); // 수정
+    // await this.postInfo(dto); // 삭제
     return 'Done';
   }
 
-  private async postInfo(dto: UpdateEntrantDto) {
+  private async updatePost(updatedRows: any) {
+    for (const index of updatedRows) {
+      await this.updateEntrant({
+        taikoId: index.taikoId,
+        entryName: index.entryName,
+        contacts: index.contacts,
+        entryType: index.entryType,
+        songScore1: index.songScore1,
+        songScore2: index.songScore2,
+        songScore3: index.songScore3,
+      });
+    }
+  }
+
+  private async updateEntrant(dto: UpdateEntrantDto) {
     try {
       const taikoId = dto.taikoId;
       await this.entrantRepository

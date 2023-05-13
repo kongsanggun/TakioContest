@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Grid from "tui-grid";
 import "tui-grid/dist/tui-grid.css";
 
-import SnomAngry from '../../public/img/snom-angry.png';
+import SnomAngry from "../../public/img/snom-angry.png";
 
 export default function GridDatas() {
   var grid;
@@ -30,7 +30,6 @@ export default function GridDatas() {
       contentType: "application/json",
       api: {
         readData: { url: "/admin/entry", method: "GET" },
-        modifyData: { url: "/admin/entry", method: "POST" },
       },
       headers: {
         "Content-Type": "application/json",
@@ -67,17 +66,17 @@ export default function GridDatas() {
       rowHeaders: ["rowNum", "checkbox"],
       columns: [
         {
-            name: "state",
-            header: "상태",
-            align: "center",
-            width: 20,
-            hidden: true
+          name: "state",
+          header: "상태",
+          align: "center",
+          width: 20,
+          hidden: true,
         },
         {
-            name: "stateIcon",
-            header: " ",
-            align: "center",
-            width: 20
+          name: "stateIcon",
+          header: " ",
+          align: "center",
+          width: 20,
         },
         {
           name: "taikoId",
@@ -150,44 +149,40 @@ export default function GridDatas() {
       ],
       columnOptions: {
         frozenCount: 1,
-        frozenBorderWidth: 1
-      }
-    
+        frozenBorderWidth: 1,
+      },
     });
 
-    grid.on('afterChange', (origin) => {
-        let changeKey = origin.changes[0].rowKey;
-        let originRow = grid.dataManager.getOriginData()[changeKey];
-        let afterRow = grid.store.data.rawData[changeKey];
+    grid.on("afterChange", (origin) => {
+      let changeKey = origin.changes[0].rowKey;
+      let originRow = grid.dataManager.getOriginData()[changeKey];
+      let afterRow = grid.store.data.rawData[changeKey];
 
-        if (!checkUpdate(originRow, afterRow)) {
-            afterRow['state'] = 'U';
-            afterRow['stateIcon'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-[20px] h-[20px] fill-[#6589c8]"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>`;
-            return;
-        }
-        afterRow['state'] = '';
-        afterRow['stateIcon'] = '';
+      if (!checkUpdate(originRow, afterRow)) {
+        afterRow["state"] = "U";
+        afterRow[
+          "stateIcon"
+        ] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-[20px] h-[20px] fill-[#6589c8]"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>`;
         return;
+      }
+      afterRow["state"] = "";
+      afterRow["stateIcon"] = "";
+      return;
     }); // 상태 바 표시
-
-  }
-
-  const state = (originRow, afterRow) => {
-    for (let index in originRow) {
-        if (originRow[index] !== afterRow[index]) return false;
-    }
-    return true;
   }
 
   const checkUpdate = (originRow, afterRow) => {
     for (let index in originRow) {
-        if (originRow[index] !== afterRow[index]) return false;
+      if (originRow[index] !== afterRow[index]) return false;
     }
     return true;
-  }
+  };
 
   const addRow = async () => {
-    grid.appendRow({state: "C", stateIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-[20px] h-[20px] fill-[#2aa743]"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>`});
+    grid.appendRow({
+      state: "C",
+      stateIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-[20px] h-[20px] fill-[#2aa743]"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>`,
+    });
   };
 
   const deleteRow = async () => {
@@ -199,19 +194,43 @@ export default function GridDatas() {
   };
 
   async function Save(e) {
-    console.log("변경사항");
-    console.log(grid.getModifiedRows());
-    // console.log("추가");
-    // console.log(grid.getModifiedRows());
-    // console.log("수정");
-    // console.log(grid.getModifiedRows());
-    // console.log("삭제");
-    // console.log(grid.getModifiedRows());
-  }
+    const createdLength = grid.getModifiedRows().createdRows.length;
+    const deletedLength = grid.getModifiedRows().deletedRows.length;
+    const updatedLength = grid.getModifiedRows().updatedRows.length;
 
-  const test = async () => {
-    console.log(grid.getCheckedRows());
-  };
+    if (createdLength + deletedLength + updatedLength === 0) {
+        alert("변경된 내역이 없습니다.");
+        return;
+    }
+
+    try {
+        let response = await fetch(`/admin/entry`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify(grid.getModifiedRows()),
+        })
+
+        if (!response.ok) {
+            const data = (await response.text()).split(',');
+            const message = await data[1].split(':')[1].replaceAll('"', '');
+
+            setAlertMessage(message);
+            throw new Error(message);
+        }
+
+        alert("저장 완료");
+        grid.reloadData();
+
+
+    } catch (Error) {
+        alert("에러");
+        return;
+    }
+  }
 
   useEffect(() => {
     initGrid();
@@ -231,12 +250,6 @@ export default function GridDatas() {
           onClick={deleteRow}
         >
           삭제
-        </button>
-        <button
-          className="text-base p-2 mr-2 w-[75px] h-auto bg-slate-500 rounded-md"
-          onClick={test}
-        >
-          Test
         </button>
         <button
           className="text-base p-2 w-[75px] h-auto bg-slate-500 rounded-md"

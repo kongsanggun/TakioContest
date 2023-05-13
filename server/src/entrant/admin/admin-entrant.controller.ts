@@ -27,7 +27,7 @@ export class AdminController {
 
   @UseGuards(AuthGuard)
   @Post('entry')
-  async updateEntry(@Body() dto: UpdateEntrantDto): Promise<any> {
+  async updateEntry(@Body() dto: any): Promise<any> {
     return await this.adminService.postEntrant(dto);
   } // 참가자의 정보를 수정한다.
 }

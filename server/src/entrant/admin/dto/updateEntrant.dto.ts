@@ -38,10 +38,4 @@ export class UpdateEntrantDto {
 
   @IsInt()
   songScore3: IntegerType; // 점수
-
-  @IsDate()
-  entryAt: Date; // 참가 시점
-
-  @IsDate()
-  expiredAt: Date; // 등록을 했으나 점수가 갱신되지 않을 경우 자동으로 삭제되는 기간
 }
