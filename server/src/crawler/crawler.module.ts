@@ -5,8 +5,12 @@ import { CrawlerService } from './crawler.service';
 import { APP_FILTER } from '@nestjs/core';
 import { ExceptionHandler } from 'src/common/ExceptionHandler';
 
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Compe } from 'src/compe/entities/compe.entity';
+import { Entrant } from 'src/entrant/entities/entrant.entity';
+
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([Compe, Entrant])],
   controllers: [CrawlerController],
   providers: [
     CrawlerService,

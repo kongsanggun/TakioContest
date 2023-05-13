@@ -1,35 +1,19 @@
+import "tui-date-picker/dist/tui-date-picker.css";
+
 import Router from "next/router";
 import React, { useEffect } from "react";
 
 import Grid from "tui-grid";
 import "tui-grid/dist/tui-grid.css";
 
-import SnomAngry from "../../public/img/snom-angry.png";
-
 export default function GridDatas() {
   var grid;
-
-  class stateRenderer {
-    constructor(props) {
-      const el = document.createElement("span");
-      el.innerHTML = `No.${props.formattedValue}`;
-      this.el = el;
-    }
-
-    getElement() {
-      return this.el;
-    }
-
-    render(props) {
-      this.el.innerHTML = `No.${props.formattedValue}`;
-    }
-  }
 
   async function initGrid() {
     const dataSource = {
       contentType: "application/json",
       api: {
-        readData: { url: "/admin/entry", method: "GET" },
+        readData: { url: "/admin/raking", method: "GET" },
       },
       headers: {
         "Content-Type": "application/json",
@@ -79,9 +63,11 @@ export default function GridDatas() {
           width: 20,
         },
         {
-          name: "taikoId",
-          header: "태고북번호",
+          name: "compeId",
+          header: "대회 번호",
           align: "center",
+          editor: "text",
+          validation: { required: true },
         },
         {
           name: "entryType",
@@ -95,56 +81,38 @@ export default function GridDatas() {
                 { text: "선택", value: "" },
                 { text: "오리지널", value: "ORIGIN" },
                 { text: "초고수", value: "CHO_GO_SU" },
-                { text: "참가 정지", value: "BANNED" },
               ],
             },
           },
           validation: { required: true },
         },
         {
-          name: "entryName",
-          header: "참가자 이름",
+          name: "hostTaikoId",
+          header: "주최자 북 번호",
           align: "center",
           editor: "text",
           validation: { required: true },
         },
         {
-          name: "contacts",
-          header: "연락처",
+          name: "hostName",
+          header: "주최자 이름",
           align: "center",
           editor: "text",
           validation: { required: true },
         },
         {
-          name: "songScore1",
-          header: "곡 점수1",
+          name: "startAt",
+          header: "시작 시간",
           align: "center",
-          editor: "text",
+          editor: "datePicker",
           validation: { required: true },
         },
         {
-          name: "songScore2",
-          header: "곡 점수2",
+          name: "endAt",
+          header: "종료 시간",
           align: "center",
-          editor: "text",
+          editor: "datePicker",
           validation: { required: true },
-        },
-        {
-          name: "songScore3",
-          header: "곡 점수3",
-          align: "center",
-          editor: "text",
-          validation: { required: true },
-        },
-        {
-          name: "entryAt",
-          header: "참가 시간",
-          align: "center",
-        },
-        {
-          name: "expiredAt",
-          header: "만료 시간",
-          align: "center",
         },
       ],
       columnOptions: {
@@ -157,6 +125,10 @@ export default function GridDatas() {
       let changeKey = origin.changes[0].rowKey;
       let originRow = grid.dataManager.getOriginData()[changeKey];
       let afterRow = grid.store.data.rawData[changeKey];
+
+      if (afterRow["state"] == "C") {
+        return;
+      }
 
       if (!checkUpdate(originRow, afterRow)) {
         afterRow["state"] = "U";
@@ -181,6 +153,9 @@ export default function GridDatas() {
   const addRow = async () => {
     grid.appendRow({
       state: "C",
+      entryType: "",
+      startAt: new Date().toISOString().split("T")[0],
+      endAt: new Date().toISOString().split("T")[0],
       stateIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-[20px] h-[20px] fill-[#2aa743]"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>`,
     });
   };
@@ -204,7 +179,7 @@ export default function GridDatas() {
     }
 
     try {
-      let response = await fetch(`/admin/entry`, {
+      let response = await fetch(`/admin/raking`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -237,6 +212,12 @@ export default function GridDatas() {
   return (
     <div className="mt-10 mb-8">
       <div className="mb-3 flex justify-end">
+        <button
+          className="text-base p-2 mr-2 w-[75px] h-auto bg-slate-500 rounded-md"
+          onClick={addRow}
+        >
+          추가
+        </button>
         <button
           className="text-base p-2 mr-2 w-[75px] h-auto bg-slate-500 rounded-md"
           onClick={deleteRow}

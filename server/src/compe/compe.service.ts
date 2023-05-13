@@ -52,8 +52,8 @@ export class CompeService {
           entryType: item.entryType,
           hostName: item.hostName,
           hostTaikoId: item.hostTaikoId,
-          startAt: item.startAt,
-          endAt: item.endAt,
+          startAt: item.startAt.toISOString().split('T')[0],
+          endAt: item.endAt.toISOString().split('T')[0],
         };
 
         return girdData;
@@ -68,12 +68,48 @@ export class CompeService {
 
   // Post : 정보 수정
 
-  async postCompe(dto: UpdateCompeDto) {
-    await this.postInfo(dto);
+  async postCompe(dto: any) {
+    await this.createPost(dto.createdRows); // 추가
+    await this.updatePost(dto.updatedRows); // 수정
+    await this.deletePost(dto.deletedRows); // 삭제
     return 'Done';
   }
 
-  private async postInfo(dto: UpdateCompeDto) {
+  private async createPost(createdRows: any) {
+    for (const index of createdRows) {
+      await this.createInfo({
+        compeId: index.compeId,
+        entryType: index.entryType,
+        hostName: index.hostName,
+        hostTaikoId: index.hostTaikoId,
+        startAt: new Date(index.startAt),
+        endAt: new Date(index.endAt),
+      });
+    }
+  }
+
+  private async createInfo(dto: UpdateCompeDto) {
+    try {
+      await this.compeRepository.save(dto);
+    } catch (error) {
+      throw new ServiceUnavailableException('생성 중 에러가 발생했습니다.');
+    }
+  }
+
+  private async updatePost(updatedRows: any) {
+    for (const index of updatedRows) {
+      await this.updateInfo({
+        compeId: index.compeId,
+        entryType: index.entryType,
+        hostName: index.hostName,
+        hostTaikoId: index.hostTaikoId,
+        startAt: new Date(index.startAt),
+        endAt: new Date(index.endAt),
+      });
+    }
+  }
+
+  private async updateInfo(dto: UpdateCompeDto) {
     try {
       const compeId = dto.compeId;
       await this.compeRepository
@@ -84,6 +120,21 @@ export class CompeService {
         .execute();
     } catch (error) {
       throw new ServiceUnavailableException('생성 중 에러가 발생했습니다.');
+    }
+  }
+
+  private async deletePost(deletedRows: any) {
+    try {
+      for (const index of deletedRows) {
+        const compeId = index.compeId;
+        await this.compeRepository
+          .createQueryBuilder('entrant')
+          .delete()
+          .where('compeId = :compeId', { compeId: compeId })
+          .execute();
+      }
+    } catch (error) {
+      throw new ServiceUnavailableException('저장 중 에러가 발생했습니다.');
     }
   }
 }

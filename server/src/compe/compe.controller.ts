@@ -9,7 +9,6 @@ import {
 
 import { ExceptionHandler } from 'src/common/ExceptionHandler';
 import { CompeService } from './compe.service';
-import { UpdateCompeDto } from './dto/updateCompe.dto';
 
 import { AuthGuard } from 'src/common/authGuard.controller';
 
@@ -26,7 +25,7 @@ export class CompeController {
 
   @UseGuards(AuthGuard)
   @Post('')
-  async createEntry(@Body() dto: UpdateCompeDto): Promise<any> {
+  async createEntry(@Body() dto: any): Promise<any> {
     return await this.compeService.postCompe(dto);
   } // 대회 정보를 수정한다.
 }

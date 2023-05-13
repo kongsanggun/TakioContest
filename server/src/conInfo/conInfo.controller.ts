@@ -26,7 +26,7 @@ export class ConInfoController {
 
   @UseGuards(AuthGuard)
   @Post('')
-  async createEntry(@Body() dto: PostConInfoDto): Promise<any> {
+  async createEntry(@Body() dto: any): Promise<any> {
     return await this.conInfoService.postConInfo(dto);
   } // 대회 정보를 수정한다.
 }

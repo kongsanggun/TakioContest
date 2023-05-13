@@ -40,7 +40,6 @@ export default function Admin() {
                 <div className="w-[80vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
                     <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
                         <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">유저관리</div>
-                        <div>필터</div>
                     </div>
                     <GridData />
                 </div>

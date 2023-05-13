@@ -10,6 +10,10 @@ export class PostConInfoDto {
   Id: string; // 대회 고유 ID
 
   @IsString()
+  @Length(12)
+  UpdateId: string; // 대회 고유 ID
+
+  @IsString()
   @MaxLength(50)
   name: string; // 대회 이름
 

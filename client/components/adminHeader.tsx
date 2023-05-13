@@ -4,7 +4,8 @@ import Router from "next/router";
 const AdminHeader = () => {
 
     const Admin = () => {
-        Router.push("/logout"); // TODO : 관리자 페이지로 이동
+        localStorage.removeItem('token');
+        Router.push("/");
         return null;
     }
 

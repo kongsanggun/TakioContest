@@ -73,7 +73,7 @@ export class AdminService {
   async postEntrant(dto: any) {
     // await this.postInfo(dto); // 추가
     await this.updatePost(dto.updatedRows); // 수정
-    // await this.postInfo(dto); // 삭제
+    await this.deletePost(dto.deletedRows); // 삭제
     return 'Done';
   }
 
@@ -88,6 +88,21 @@ export class AdminService {
         songScore2: index.songScore2,
         songScore3: index.songScore3,
       });
+    }
+  }
+
+  private async deletePost(deletedRows: any) {
+    try {
+      for (const index of deletedRows) {
+        const taikoId = index.taikoId;
+        await this.entrantRepository
+          .createQueryBuilder('entrant')
+          .delete()
+          .where('taikoId = :taikoId', { taikoId: taikoId })
+          .execute();
+      }
+    } catch (error) {
+      throw new ServiceUnavailableException('저장 중 에러가 발생했습니다.');
     }
   }
 

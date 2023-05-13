@@ -8,7 +8,7 @@ export default function Main() {
 
     useEffect(() => {
         auth();
-    },[]);
+    }, []);
 
     async function auth() {
         let response = await fetch(`/auth`, {
@@ -31,9 +31,10 @@ export default function Main() {
         <div className='bg-[#F9F9FB]'>
             <AdminHeader />
             <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
-                <div className="w-[70vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className='text-5xl mb-10 font-bold w-[auto] h-auto'>대회 관리</div>
-                    준비 중 입니다.
+                <div className="w-[80vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
+                    <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
+                        <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">대회 관리</div>
+                    </div>
                 </div>
             </div>
             <Footer />

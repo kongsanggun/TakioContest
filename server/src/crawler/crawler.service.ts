@@ -1,24 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import puppeteer, { executablePath } from 'puppeteer-core';
+import { Compe } from 'src/compe/entities/compe.entity';
+import { Entrant } from 'src/entrant/entities/entrant.entity';
+import { Repository } from 'typeorm';
 
 // TODO : 추후 환경 변수 적용 및 최적화 예정
 
 @Injectable()
 export class CrawlerService {
+  constructor(
+    @InjectRepository(Compe)
+    private readonly compeRepository: Repository<Compe>,
+    @InjectRepository(Entrant)
+    private readonly entrantRepository: Repository<Entrant>,
+  ) {}
   async crawler(): Promise<any> {
     // 1. compe 정보 가져오기 (기준을 어제, 범위 시작 <= 어제 <= 종료 )
+    const compeData = this.getCompe();
+    console.log(compeData);
+    for (const tmp of await compeData) {
+      console.log(tmp.compeId);
+    }
     // 2. compe에서 설정한 모든 랭킹 점수 가져오기
+    const entrantData = await this.getRanking(await compeData);
+    console.log(entrantData);
     // 3. 가져온 점수를 통하여 entry 갱신하기
-    // 4. 갱신되지 않는 enrty 중에서 만료 된 정보 삭제하기
     return 'Done!';
   }
 
-  async getRanking(): Promise<any> {
+  private async getCompe() {
+    try {
+      return await this.compeRepository
+        .createQueryBuilder('compe')
+        .orderBy({
+          'compe.compeId': 'ASC',
+        })
+        .getMany();
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        '랭킹을 불러오는 도중 오류가 발생했습니다.',
+      );
+    }
+  }
+
+  private async getRanking(compeData: Compe[]): Promise<any> {
+    const result = [];
     const browser = await puppeteer.launch({
       args: ['--no-sandbox'],
-      headless: true,
+      headless: false,
       executablePath: executablePath('chrome'),
     });
     const page = await browser.newPage();
@@ -63,66 +95,74 @@ export class CrawlerService {
       console.log('에러 발생: ' + error);
       return null;
     }
-    await page.goto(
-      `https://donderhiroba.jp/compe_ranking.php?compeid=${null}`,
-    );
-    await page.waitForSelector('#mater');
 
-    const data = await page.evaluate(() => {
-      const result = [];
-      const len = document.querySelectorAll('#mater > div').length;
+    for (const index of compeData) {
+      console.log(index.compeId);
+      await page.goto(
+        `https://donderhiroba.jp/compe_ranking.php?compeid=${index.compeId}`,
+      );
+      console.log('a');
+      await page.waitForSelector('#mater > div', { timeout: 5000 });
+      console.log('b');
 
-      for (let i = 0; i < len; i++) {
-        const names = document
-          .querySelector(
-            `#mater > div:nth-child(${i + 1}) > div.clearfix.player-info > div`,
-          )
-          .textContent.split('\n\t\t');
-        const name = names[0];
-        const total = names[1];
+      const data = await page.evaluate(() => {
+        const result = [];
+        console.log('a');
+        const len = document.querySelectorAll('#mater > div').length;
 
-        const userImg = document
-          .querySelector(
-            `#mater > div:nth-child(${i + 1}) > div.clearfix.player-info > img`,
-          )
-          .getAttribute('src');
-        const id = userImg.slice(-12);
-
-        const songDetail = [];
-
-        for (let idx = 0; idx < 3; idx++) {
-          const song = document
+        for (let i = 0; i < len; i++) {
+          const names = document
             .querySelector(
               `#mater > div:nth-child(${
                 i + 1
-              }) > div.slide-block > div.block > div:nth-child(${idx + 1})`,
+              }) > div.clearfix.player-info > div`,
             )
-            .textContent.replace('\n\t\t\t\t\t\t\t\t', '')
-            .split('\n\t\t\t\t');
+            .textContent.split('\n\t\t');
+          const name = names[0];
+          const total = names[1];
 
-          const songName = song[0];
-          const songScore = song[1];
+          const userImg = document
+            .querySelector(
+              `#mater > div:nth-child(${
+                i + 1
+              }) > div.clearfix.player-info > img`,
+            )
+            .getAttribute('src');
+          const id = userImg.slice(-12);
+          console.log('a');
 
-          songDetail.push({
-            songName: songName,
-            songScore: songScore,
+          const songDetail = [];
+
+          for (let idx = 0; idx < 3; idx++) {
+            const song = document
+              .querySelector(
+                `#mater > div:nth-child(${
+                  i + 1
+                }) > div.slide-block > div.block > div:nth-child(${idx + 1})`,
+              )
+              .textContent.replace('\n\t\t\t\t\t\t\t\t', '')
+              .split('\n\t\t\t\t');
+
+            const songScore = song[1];
+
+            songDetail.push(songScore);
+          }
+
+          result.push({
+            id: id,
+            name: name,
+            entryType: index.entryType,
+            songDetail: songDetail,
           });
         }
 
-        result.push({
-          id: id,
-          name: name,
-          userImg: userImg,
-          total: total,
-          songDetail: songDetail,
-        });
-      }
-
-      return result;
-    });
+        return result;
+      });
+      result.push(data);
+    }
 
     await browser.close();
 
-    return data;
+    return result;
   }
 }
