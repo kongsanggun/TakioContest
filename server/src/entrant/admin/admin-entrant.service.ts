@@ -55,8 +55,8 @@ export class AdminService {
           songScore1: item.songScore1,
           songScore2: item.songScore2,
           songScore3: item.songScore3,
-          entryAt: item.entryAt,
-          expiredAt: item.expiredAt,
+          entryAt: item.entryAt.toISOString().split('T')[0],
+          expiredAt: item.expiredAt.toISOString().split('T')[0],
         };
 
         return girdData;

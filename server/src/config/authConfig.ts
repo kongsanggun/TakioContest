@@ -1,3 +1,5 @@
-export const jwtConstants = {
-  secret: process.env.JWT_SECRET,
-};
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('auth', () => ({
+  jwtSecret: process.env.JWT_SECRET,
+}));

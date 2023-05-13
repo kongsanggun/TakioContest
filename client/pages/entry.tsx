@@ -9,7 +9,6 @@ import NualmotAlert from "../components/alert/nualmotAlert";
 export default function Entry() {
     const [openAlert, setOpenAlert] = useState(false);
     const [openSnom, setOpenSnom] = useState(false);
-    const [yes, setyes] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
 
     const onModalAlert = () => {
@@ -87,17 +86,8 @@ export default function Entry() {
         return true;
     } // 누잘알 검사
 
-    async function Submit(e: any) {
-        try {
-
-            if(!vaild()) {
-                throw Error();
-            }
-
-            if(!snomVaild()) {
-                const re = setOpenSnom(!openSnom);
-            }
-
+    const PostEntry = async () => {
+         try {
             const today = new Date();
             const expiredDay = new Date();
 
@@ -125,21 +115,34 @@ export default function Entry() {
             }
 
             //alert('참가 완료되었습니다.');
-            //Router.push("/");
+            Router.push("/");
 
         } catch (Error) {
             if (Error) {
-                // TODO : 팝업 생성;
                 setOpenAlert(!openAlert);
             }
             else {
-                setAlertMessage('등록에 실패하였습니다.');
+                setAlertMessage('참가자 등록에 실패하였습니다.');
                 setOpenAlert(!openAlert);
             }
 
             return;
         }
-    }
+    } // 참가자를 등록한다.
+
+    const Submit = async() => {
+            if(!vaild()) {
+                setOpenAlert(!openAlert);
+                return;
+            } // 유효성 실패
+
+            if(!snomVaild()) {
+                setOpenSnom(!openSnom);
+                return;
+            } // 누알못 탐지
+
+            PostEntry();
+    } // 등록하기
 
     const Radio = () => {
         return (
@@ -170,7 +173,7 @@ export default function Entry() {
     return (
         <>
             {openAlert && <ModalAlert onOpenAlert={onModalAlert} data={alertMessage} />}
-            {openSnom && <NualmotAlert onOpenAlert={onSnomAlert}/>}
+            {openSnom && <NualmotAlert onOpenAlert={onSnomAlert} onConfirm={() =>{setOpenSnom(!openSnom); PostEntry();}} />}
             <div className='bg-[#F9F9FB]'>
                 <Header />
                 <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 flex flex-col items-center">

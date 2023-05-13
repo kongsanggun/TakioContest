@@ -11,12 +11,12 @@ export default function Main() {
     },[]);
 
     async function auth() {
-        let response = await fetch(`/auth/admin`, {
+        let response = await fetch(`/auth`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
-                "Bearer": "",
+                Authorization: `Bearer ${localStorage.getItem('token')}`
             },
         })
 

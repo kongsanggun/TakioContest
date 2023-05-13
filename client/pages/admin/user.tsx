@@ -9,15 +9,15 @@ export default function Admin() {
 
     useEffect(() => {
         auth();
-    },[]);
+    }, []);
 
     async function auth() {
-        let response = await fetch(`/auth/admin`, {
+        let response = await fetch(`/auth`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
-                "Bearer": "",
+                Authorization: `Bearer ${localStorage.getItem('token')}`
             },
         })
 
@@ -29,7 +29,7 @@ export default function Admin() {
     }
 
     const GridData = dynamic(
-        () => import('../../components/gridDataUser'),
+        () => import('../../components/gird/gridDataUser'),
         { ssr: false }
     )
 
@@ -37,9 +37,12 @@ export default function Admin() {
         <div className='bg-[#F9F9FB]'>
             <AdminHeader />
             <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
-                <div className="w-[70vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className='text-5xl mb-10 font-bold w-[auto] h-auto'>유저 관리</div>
-                    <GridData/>
+                <div className="w-[80vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
+                    <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
+                        <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">유저관리</div>
+                        <div>필터</div>
+                    </div>
+                    <GridData />
                 </div>
             </div>
             <Footer />

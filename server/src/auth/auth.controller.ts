@@ -15,16 +15,15 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @UseGuards(AuthGuard)
+  @Get('')
+  checkAuth(@Request() req) {
+    return req.user;
+  } // 페이지 접속시에 로그인이 되어있는지 확인한다.
+
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
-    console.log(signInDto);
     return this.authService.signIn(signInDto.username, signInDto.password);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('admin')
-  getProfile(@Request() req) {
-    return req.user;
-  }
+  } // 로그인
 }

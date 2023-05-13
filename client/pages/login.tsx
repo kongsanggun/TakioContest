@@ -56,7 +56,10 @@ export default function Main() {
                 throw new Error(message);
             }
 
+            let resJSON = await response.json();
+
             alert('로그인 성공!');
+            localStorage.setItem('token', resJSON.token);
             Router.push("/admin");
 
         } catch (Error) {

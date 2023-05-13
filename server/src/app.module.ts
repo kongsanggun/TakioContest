@@ -1,6 +1,8 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import authConfig from './config/authConfig';
 
 import { APP_FILTER } from '@nestjs/core';
 import { validate } from './config/env.validation';
@@ -18,6 +20,8 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: [`.env`],
+      load: [authConfig],
       isGlobal: true,
       validate,
     }),

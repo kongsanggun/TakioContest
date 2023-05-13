@@ -1,10 +1,9 @@
 import React from "react";
-import { confirmAlert } from 'react-confirm-alert';
 
 import Image from 'next/image';
 import SnomAngry from '../../public/img/snom-angry.png';
 
-const NualmotAlert = ({ onOpenAlert, data } : any,) => {
+const NualmotAlert = ({ onOpenAlert, onConfirm } : any,) => {
     return (
         <div className="h-screen w-full fixed left-0 right-0 top-0 flex justify-center items-center bg-black bg-opacity-30 text-center" onClick={onOpenAlert}>
             <div className="bg-white rounded w-10/12 md:w-1/2 drop-shadow-xl" onClick={function(){}}>
@@ -21,7 +20,7 @@ const NualmotAlert = ({ onOpenAlert, data } : any,) => {
                     </div>
                     <div className="flex text-[#121316] text-sm items-center">
                         <button className='p-3 mr-5 w-[15vw] h-auto bg-slate-500 rounded-md' onClick={onOpenAlert}>저는 누잘알입니다.</button>
-                        <button className='p-3 w-[15vw] h-auto bg-slate-500 rounded-md' onClick={onOpenAlert}>저는 누알못입니다.</button>
+                        <button className='p-3 w-[15vw] h-auto bg-slate-500 rounded-md' onClick={onConfirm}>저는 누알못입니다.</button>
                     </div>
                 </div>
             </div>
