@@ -1,5 +1,5 @@
 import { Cron } from '@nestjs/schedule';
-import { Controller, Get, UseFilters } from '@nestjs/common';
+import { Controller, UseFilters } from '@nestjs/common';
 import { CrawlerService } from './crawler.service';
 import { ExceptionHandler } from '../common/ExceptionHandler';
 
@@ -8,9 +8,8 @@ import { ExceptionHandler } from '../common/ExceptionHandler';
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 
-  //@Cron('0 00 06 * * *')
-  @Get('test')
+  @Cron('0 00 06 * * *')
   getRanking() {
     return this.crawlerService.crawler();
-  } // TODO : 추후에 수정하기
+  } // 히로바에서 점수 데이터 가져와서 갱신하기
 }

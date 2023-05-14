@@ -1,9 +1,14 @@
-import { Injectable, ServiceUnavailableException } from '@nestjs/common';
+import {
+  Injectable,
+  ServiceUnavailableException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import puppeteer, { executablePath } from 'puppeteer-core';
 import { Compe } from 'src/compe/entities/compe.entity';
+import { UpdateEntrantDto } from 'src/entrant/admin/dto/updateEntrant.dto';
 import { Entrant } from 'src/entrant/entities/entrant.entity';
 import { Repository } from 'typeorm';
 
@@ -12,22 +17,37 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class CrawlerService {
   constructor(
+    private logger: Logger,
     @InjectRepository(Compe)
     private readonly compeRepository: Repository<Compe>,
     @InjectRepository(Entrant)
     private readonly entrantRepository: Repository<Entrant>,
   ) {}
   async crawler(): Promise<any> {
-    // 1. compe 정보 가져오기 (기준을 어제, 범위 시작 <= 어제 <= 종료 )
+    let count = 3;
+
+    this.logger.debug(
+      '1. compe 정보 가져오기 (기준을 어제, 범위 시작 <= 어제 <= 종료',
+    );
+
     const compeData = this.getCompe();
-    console.log(compeData);
-    for (const tmp of await compeData) {
-      console.log(tmp.compeId);
+
+    this.logger.debug('2. compe에서 설정한 모든 랭킹 점수 가져오기');
+
+    let entrantData = await this.getRanking(await compeData);
+
+    while (entrantData === null && count > 0) {
+      this.logger.error(`에러가 발생하여 다시 시작 ::: ${count}번 남음`);
+      entrantData = await this.getRanking(await compeData);
+      count--;
     }
-    // 2. compe에서 설정한 모든 랭킹 점수 가져오기
-    const entrantData = await this.getRanking(await compeData);
-    console.log(entrantData);
-    // 3. 가져온 점수를 통하여 entry 갱신하기
+    if (count <= 0) {
+      throw new ServiceUnavailableException('데이터 불러오기 실패');
+    }
+    this.logger.log(`데이터 불러오기 결과 : ${entrantData}`);
+
+    this.logger.debug('3. 가져온 점수를 통하여 entry 갱신하기');
+    await this.updateEntrant(await entrantData);
     return 'Done!';
   }
 
@@ -46,11 +66,71 @@ export class CrawlerService {
     }
   }
 
+  private async updateEntrant(entrantData: []) {
+    for (const data of entrantData) {
+      const Entrant = await this.findEntrant(data);
+      this.logger.log(`참가자 조회 결과 : ${Entrant}`);
+      if (!Entrant) {
+        continue;
+      }
+
+      const songScore1 =
+        Number(data['songScore1']) > Number((await Entrant).songScore1)
+          ? Number(data['songScore1'])
+          : Number((await Entrant).songScore1);
+      const songScore2 =
+        Number(data['songScore2']) > Number((await Entrant).songScore2)
+          ? Number(data['songScore2'])
+          : Number((await Entrant).songScore2);
+      const songScore3 =
+        Number(data['songScore3']) > Number((await Entrant).songScore3)
+          ? Number(data['songScore3'])
+          : Number((await Entrant).songScore3);
+
+      await this.update({
+        taikoId: Entrant.taikoId,
+        songScore1: songScore1,
+        songScore2: songScore2,
+        songScore3: songScore3,
+        entryName: Entrant.entryName,
+        contacts: Entrant.contacts,
+        entryType: Entrant.entryType,
+      });
+      this.logger.log('갱신 완료');
+    }
+  }
+
+  private async findEntrant(data: any) {
+    const taikoId = data.taikoId;
+    const entryType = data.entryType;
+
+    return await this.entrantRepository
+      .createQueryBuilder('score')
+      .where('score.taikoId = :taikoId', { taikoId: taikoId })
+      .andWhere('score.entryType = :entryType', { entryType: entryType })
+      .getOne();
+  }
+
+  private async update(dto: UpdateEntrantDto) {
+    this.logger.log(`갱신 DTO : ${dto}`);
+    try {
+      const taikoId = dto.taikoId;
+      await this.entrantRepository
+        .createQueryBuilder('entrant')
+        .update('entrant')
+        .set(dto)
+        .where('taikoId = :taikoId', { taikoId: taikoId })
+        .execute();
+    } catch (error) {
+      throw new ServiceUnavailableException('갱신 중 에러가 발생했습니다.');
+    }
+  }
+
   private async getRanking(compeData: Compe[]): Promise<any> {
     const result = [];
     const browser = await puppeteer.launch({
       args: ['--no-sandbox'],
-      headless: false,
+      headless: true,
       executablePath: executablePath('chrome'),
     });
     const page = await browser.newPage();
@@ -63,7 +143,8 @@ export class CrawlerService {
       // 해당 콘텐츠가 로드될 때까지 대기
       await page.waitForSelector('#mail', { timeout: 2000 });
     } catch (error) {
-      console.log('에러 발생: ' + error);
+      this.logger.error('에러 발생: ' + error);
+      await browser.close();
       return null;
     }
 
@@ -79,7 +160,8 @@ export class CrawlerService {
     try {
       await page.waitForSelector('#form_user1 > div > a', { timeout: 5000 });
     } catch (error) {
-      console.log('에러 발생: ' + error);
+      this.logger.error('에러 발생: ' + error);
+      await browser.close();
       return null;
     }
     await wait;
@@ -92,77 +174,80 @@ export class CrawlerService {
         { timeout: 5000 },
       );
     } catch (error) {
-      console.log('에러 발생: ' + error);
+      this.logger.error('에러 발생: ' + error);
+      await browser.close();
       return null;
     }
 
-    for (const index of compeData) {
-      console.log(index.compeId);
-      await page.goto(
-        `https://donderhiroba.jp/compe_ranking.php?compeid=${index.compeId}`,
-      );
-      console.log('a');
-      await page.waitForSelector('#mater > div', { timeout: 5000 });
-      console.log('b');
+    try {
+      for (const index of await compeData) {
+        await page.goto(
+          `https://donderhiroba.jp/compe_ranking.php?compeid=${index.compeId}`,
+        );
+        const entryType = index.entryType.toString();
+        const data = await page.evaluate((entryType: string) => {
+          const result = [];
+          const len = document.querySelectorAll('#mater > div').length;
 
-      const data = await page.evaluate(() => {
-        const result = [];
-        console.log('a');
-        const len = document.querySelectorAll('#mater > div').length;
-
-        for (let i = 0; i < len; i++) {
-          const names = document
-            .querySelector(
-              `#mater > div:nth-child(${
-                i + 1
-              }) > div.clearfix.player-info > div`,
-            )
-            .textContent.split('\n\t\t');
-          const name = names[0];
-          const total = names[1];
-
-          const userImg = document
-            .querySelector(
-              `#mater > div:nth-child(${
-                i + 1
-              }) > div.clearfix.player-info > img`,
-            )
-            .getAttribute('src');
-          const id = userImg.slice(-12);
-          console.log('a');
-
-          const songDetail = [];
-
-          for (let idx = 0; idx < 3; idx++) {
-            const song = document
+          for (let i = 0; i < len; i++) {
+            const names = document
               .querySelector(
                 `#mater > div:nth-child(${
                   i + 1
-                }) > div.slide-block > div.block > div:nth-child(${idx + 1})`,
+                }) > div.clearfix.player-info > div`,
               )
-              .textContent.replace('\n\t\t\t\t\t\t\t\t', '')
-              .split('\n\t\t\t\t');
+              .textContent.split('\n\t\t');
+            const name = names[0];
 
-            const songScore = song[1];
+            const userImg = document
+              .querySelector(
+                `#mater > div:nth-child(${
+                  i + 1
+                }) > div.clearfix.player-info > img`,
+              )
+              .getAttribute('src');
+            const id = userImg.slice(-12);
 
-            songDetail.push(songScore);
+            const songDetail = [];
+
+            for (let idx = 0; idx < 3; idx++) {
+              const song = document
+                .querySelector(
+                  `#mater > div:nth-child(${
+                    i + 1
+                  }) > div.slide-block > div.block > div:nth-child(${idx + 1})`,
+                )
+                .textContent.replace('\n\t\t\t\t\t\t\t\t', '')
+                .split('\n\t\t\t\t');
+
+              const songScore =
+                song[1] === 'スコア未登録'
+                  ? 0
+                  : Number(song[1].replace('点', ''));
+              songDetail.push(songScore);
+            }
+
+            result.push({
+              taikoId: id,
+              entryName: name,
+              entryType: entryType,
+              songScore1: songDetail[0],
+              songScore2: songDetail[1],
+              songScore3: songDetail[2],
+            });
           }
 
-          result.push({
-            id: id,
-            name: name,
-            entryType: index.entryType,
-            songDetail: songDetail,
-          });
+          return result;
+        }, entryType);
+        for (const dataIndex of await data) {
+          result.push(dataIndex);
         }
-
-        return result;
-      });
-      result.push(data);
+      }
+    } catch (error) {
+      this.logger.error('에러 발생: ' + error);
+      await browser.close();
+      return null;
     }
-
-    await browser.close();
-
     return result;
   }
 }
