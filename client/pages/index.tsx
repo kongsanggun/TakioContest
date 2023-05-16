@@ -1,7 +1,7 @@
 import Header from '../components/header';
 import Footer from '../components/footer';
 
-import { useRouter } from 'next/router';
+import Router from "next/router";
 import React, { useState, useEffect } from "react";
 
 import ModalMovie from '@/components/alert/modalMovie';
@@ -15,8 +15,49 @@ export default function Main() {
 
     const [url, setUrl] = useState("");
     const [openAlert, setOpenAlert] = useState(false);
+    const [count, setCount] = useState(0);
+    const [dates, setDates] = useState({
+        start: "",
+        end: "",
+    });
 
-    const onModalMovie = (input : any) => {
+    useEffect(() => {
+        init();
+    },[]);
+
+    const init = async () => {
+        try {
+            let response = await fetch(`/index`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
+            }).then((res) => {
+                if (!res.ok) {
+                    throw new Error();
+                }
+                return res.json();
+            }).then(async (data) => {
+                    const counts = data.count;
+                    const start = data.start.split('T')[0];
+                    const end = data.end.split('T')[0];
+
+                    setCount(counts); // 참가자 수
+                    setDates({
+                        start: start,
+                        end: end
+                    });
+
+                });
+
+        } catch (Error) {
+            Router.push("/error");
+            return;
+        }
+    }
+
+    const onModalMovie = (input: any) => {
         let HTML = document.querySelector('html');
         setUrl(input)
         setOpenAlert(!openAlert);
@@ -24,7 +65,6 @@ export default function Main() {
             openAlert ? HTML.style.overflowY = "auto" : HTML.style.overflowY = "hidden";
         }
     }
-
 
     const MainDoor = () => {
         return (
@@ -39,10 +79,10 @@ export default function Main() {
                             <span className="text-[#d19c63] font-['SDKukdetopokki'] text-border-white">Do the G 초고수</span>가 될 수 있는 기회에 도전해보세요!
                         </div>
                         <div className="text-base sm:text-lg mb-2">
-                            참여 기간 : <span className="font-['SDKukdetopokki']">{"2023-05-01"}</span> ~ <span className="font-['SDKukdetopokki']">{"2023-05-31"}</span>
+                            참여 기간 : <span className="font-['SDKukdetopokki']">{dates.start}</span> ~ <span className="font-['SDKukdetopokki']">{dates.end}</span>
                         </div>
                         <div className="text-base sm:text-lg mb-3 sm:mb-4">
-                            현재 <span className="font-['SDKukdetopokki']">{32}</span>명이 이 대회에 참여 중입니다.
+                            현재 <span className="font-['SDKukdetopokki']">{count}</span>명이 이 대회에 참여 중입니다.
                         </div>
                         <div className='text-sm'>
                             위 페이지는 아케이드 리듬게임 태고의 달인 온라인 대회와 관련하여 웹페이지로 제작하는 <br /> 웹 프로젝트입니다.
@@ -88,7 +128,7 @@ export default function Main() {
                         <Image src={ChogosuSmile} height={120} width={120} alt='웃는 모습'></Image>
                     </div>
                     <div className="mb-3 w-[full] h-auto">
-                        <div className="text-[#245A8D] font-['SDKukdetopokki']" onClick={function(){onModalMovie("QPvz01_QsQc?start=49")}}>영상보기 📺</div>
+                        <div className="text-[#245A8D] font-['SDKukdetopokki']" onClick={function () { onModalMovie("QPvz01_QsQc?start=49") }}>영상보기 📺</div>
                     </div>
                 </div>
             </div>
@@ -113,9 +153,9 @@ export default function Main() {
                         <div className='py-4 px-4 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
                             <div className='text-xl mb-4 text-[#245A8D]'>🎯 과제곡 🎯</div>
                             <div>
-                                <div className='mb-2 w-[full]'>연애편지 2000 (연문 2000) <span onClick={function(){onModalMovie("QPvz01_QsQc?start=97")}} className='text-rose-600'>▶️</span></div>
-                                <div className='mb-2 w-[full]'>타베루나 2000 <span onClick={function(){onModalMovie("QPvz01_QsQc?start=181")}} className='text-rose-600'>▶️</span></div>
-                                <div className='w-[full]'>키타사이타마 2000 <span onClick={function(){onModalMovie("QPvz01_QsQc?start=311")}} className='text-rose-600'>▶️</span></div>
+                                <div className='mb-2 w-[full]'>연애편지 2000 (연문 2000) <span onClick={function () { onModalMovie("QPvz01_QsQc?start=97") }} className='text-rose-600'>▶️</span></div>
+                                <div className='mb-2 w-[full]'>타베루나 2000 <span onClick={function () { onModalMovie("QPvz01_QsQc?start=181") }} className='text-rose-600'>▶️</span></div>
+                                <div className='w-[full]'>키타사이타마 2000 <span onClick={function () { onModalMovie("QPvz01_QsQc?start=311") }} className='text-rose-600'>▶️</span></div>
                             </div>
                         </div>
                     </div>
@@ -129,9 +169,9 @@ export default function Main() {
                         <div className='py-4 px-4 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
                             <div className='text-xl mb-4 text-[#245A8D]'>🎯 과제곡 🎯</div>
                             <div>
-                                <div className='mb-2 w-[full]'>Xevel <span onClick={function(){onModalMovie("xbVQb-9M5IQ?start=9")}} className='text-rose-600'>▶️</span></div>
-                                <div className='mb-2 w-[full]'>Hurtling Boys <span onClick={function(){onModalMovie("_AoWY5A_xFk?start=28")}} className='text-rose-600'>▶️</span></div>
-                                <div className='w-[full]'>ANiMA <span onClick={function(){onModalMovie("HcJuuIWMJ8w?start=8")}} className='text-rose-600'>▶️</span></div>
+                                <div className='mb-2 w-[full]'>Xevel <span onClick={function () { onModalMovie("xbVQb-9M5IQ?start=9") }} className='text-rose-600'>▶️</span></div>
+                                <div className='mb-2 w-[full]'>Hurtling Boys <span onClick={function () { onModalMovie("_AoWY5A_xFk?start=28") }} className='text-rose-600'>▶️</span></div>
+                                <div className='w-[full]'>ANiMA <span onClick={function () { onModalMovie("HcJuuIWMJ8w?start=8") }} className='text-rose-600'>▶️</span></div>
                             </div>
                         </div>
                     </div>
@@ -155,11 +195,11 @@ export default function Main() {
                     <div className='py-4 px-4 mb-10 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
                         <div className='text-xl mb-4 text-[#FF0000]'>⚠️ 주의 사항 ⚠️</div>
                         <div>
-                            <p className='mb-3 w-[full]'> 모드는 하나만 선택할 수 있습니다. <br/> 가급적이면 자신의 실력에 맞게 모드를 선택해주세요. </p>
+                            <p className='mb-3 w-[full]'> 모드는 하나만 선택할 수 있습니다. <br /> 가급적이면 자신의 실력에 맞게 모드를 선택해주세요. </p>
                             <p className='mb-3 w-[full]'> 정정당당한 실력으로 스스로 참가해주세요. </p>
                             <p className='mb-3 w-[full]'> 1인당 1계정으로만 참가해주세요. 중복 참가를 금합니다. </p>
-                            <p className='mb-3 w-[full]'> 대회 집계가 안될 경우도 있습니다. <br/> 있다면 사진 및 시간을 입력하여 저한테 연락해주세요. </p>
-                            <p className='mb-3 w-[full]'> 참가 이름의 경우 자유지만 정치, 특정 커뮤니티 은어 등과 같은  <br/> 민감한 주제를 가지는 이름으로 참가할 경우 바로 제외 될 수 있습니다. </p>
+                            <p className='mb-3 w-[full]'> 대회 집계가 안될 경우도 있습니다. <br /> 있다면 사진 및 시간을 입력하여 저한테 연락해주세요. </p>
+                            <p className='mb-3 w-[full]'> 참가 이름의 경우 자유지만 정치, 특정 커뮤니티 은어 등과 같은  <br /> 민감한 주제를 가지는 이름으로 참가할 경우 바로 제외 될 수 있습니다. </p>
                         </div>
                     </div>
                     <div className="mb-3 w-[full] h-auto">
@@ -172,7 +212,7 @@ export default function Main() {
 
     return (
         <>
-            {openAlert && <ModalMovie onOpenAlert={onModalMovie} url={url}/>}
+            {openAlert && <ModalMovie onOpenAlert={onModalMovie} url={url} />}
             <div className="bg-[#F9F9FB]">
                 <Header />
                 <MainDoor />

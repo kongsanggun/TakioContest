@@ -48,6 +48,9 @@ export class CrawlerService {
 
     this.logger.debug('3. 가져온 점수를 통하여 entry 갱신하기');
     await this.updateEntrant(await entrantData);
+
+    this.logger.debug('4. 만료된 entry 삭제');
+    await this.deleteEntrant();
     return 'Done!';
   }
 
@@ -57,6 +60,9 @@ export class CrawlerService {
         .createQueryBuilder('compe')
         .orderBy({
           'compe.compeId': 'ASC',
+        })
+        .andWhere(':now between compe.startAt and compe.endAt', {
+          now: new Date().toISOString().split('T')[0],
         })
         .getMany();
     } catch (error) {
@@ -98,6 +104,19 @@ export class CrawlerService {
       });
       this.logger.log('갱신 완료');
     }
+  }
+
+  private async deleteEntrant() {
+    await this.entrantRepository
+      .createQueryBuilder('entrant')
+      .delete()
+      .where('songScore1 = 0 AND songScore2 = 0 AND songScore3 = 0')
+      .andWhere(':now >= expiredAt', {
+        now: new Date().toISOString().split('T')[0],
+      })
+      .execute();
+
+    return null;
   }
 
   private async findEntrant(data: any) {

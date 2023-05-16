@@ -25,6 +25,9 @@ export default function Main() {
         if (response.status == 401) {
             Router.push("/login");
         }
+        else if (!response.ok) {
+            Router.push("/error")
+        }
     }
 
     return (

@@ -16,6 +16,8 @@ import { CrawlerModule } from './crawler/crawler.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConInfo } from './conInfo/entities/conInfo.entity';
+import { Entrant } from './entrant/entities/entrant.entity';
 
 @Module({
   imports: [
@@ -44,6 +46,7 @@ import { AppService } from './app.service';
     ConInfoModule,
     EntrantModule,
     CrawlerModule,
+    TypeOrmModule.forFeature([ConInfo, Entrant]),
   ],
   controllers: [AppController],
   providers: [

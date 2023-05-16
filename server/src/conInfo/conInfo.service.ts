@@ -2,7 +2,7 @@ import { ServiceUnavailableException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { ConInfo } from './entities/conInfo.entitiy';
+import { ConInfo } from './entities/conInfo.entity';
 import { PostConInfoDto } from './dto/postInfo.dto';
 
 @Injectable()

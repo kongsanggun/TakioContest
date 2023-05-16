@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Chart from "@toast-ui/chart";
 import "@toast-ui/chart/dist/toastui-chart.min.css"; // Chart 스타일
 
-export default function BarData() {
+export default function BarData({date}) {
   const [size, setSize] = useState(0);
   const [labels] = useState([]);
   const [songScore1] = useState([]);
@@ -124,7 +124,7 @@ export default function BarData() {
     return (
       <div className="w-full h-auto">
         <p className="text-base mb-2 w-[full]">
-          기간 : 0000-00-00 ~ 0000-00-00
+          기간 : {date.start} ~ {date.end}
         </p>
         <p className="text-base mb-4 w-[full]">
           참가자 수 : {size}명

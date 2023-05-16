@@ -1,21 +1,56 @@
 import Header from '../components/header';
 import Footer from '../components/footer';
 
+import Router from "next/router";
 import dynamic from 'next/dynamic'
 import React, { useState, useEffect } from "react";
 
 export default function Entry() {
 
     const [mode, setMode] = useState(true);
-    
+    const [dates, setDates] = useState({
+        start: "",
+        end: "",
+    });
+
+    useEffect(() => {
+        init();
+        // TODO : 마감 시간 임박 시 정보 가리기
+    },[]);
+
+    const init = async () => {
+        try {
+            let response = await fetch(`/index`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
+            }).then((res) => {
+                if (!res.ok) {
+                    throw new Error();
+                }
+                return res.json();
+            }).then(async (data) => {
+                    const start = data.start.split('T')[0];
+                    const end = data.end.split('T')[0];
+
+                    setDates({
+                        start: start,
+                        end: end
+                    });
+
+                });
+
+        } catch (Error) {
+            Router.push("/error");
+            return;
+        }
+    }
+
     const changeMode = () => {
         mode ? setMode(false) : setMode(true);
     }
-
-    // TODO : 마감 시간 임박 시 정보 가리기
-
-    useEffect(() => {
-    },[]);
 
     const OriginBar= dynamic(
         () => import('../components/bar/barDataOrigin'),
@@ -68,7 +103,7 @@ export default function Entry() {
                         <div>Do the G 2023 대회의 랭킹입니다.</div>
                     </div>
                     <SubManu />
-                    {mode ? <OriginBar/> : <ChogosuBar/>}
+                    {mode ? <OriginBar date = {dates}/> : <ChogosuBar date = {dates}/>}
                     {mode ? <OriginGird/> : <ChogosuGird/>}
                 </div>
             </div>
