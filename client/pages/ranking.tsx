@@ -1,4 +1,5 @@
 import Header from '../components/header';
+import Spanner from '@/components/spanner';
 import Footer from '../components/footer';
 
 import Router from "next/router";
@@ -8,6 +9,7 @@ import React, { useState, useEffect } from "react";
 export default function Entry() {
 
     const [mode, setMode] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [dates, setDates] = useState({
         start: "",
         end: "",
@@ -113,6 +115,7 @@ export default function Entry() {
                         songScore2C.push(element.songScore2);
                         songScore3C.push(element.songScore3);
                     });
+                    setLoading(!loading);
                 });
         } catch (Error) {
             Router.push("/error");
@@ -166,22 +169,25 @@ export default function Entry() {
     }
 
     return (
-        <div className='bg-[#F9F9FB]'>
-            <Header />
-            <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
-                <div className="w-[70vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
-                        <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">참가자 랭킹</div>
-                        <div>Do the G 2023 대회의 랭킹입니다.</div>
+        <>
+            {<Spanner loading={loading} />}
+            <div className='bg-[#F9F9FB]'>
+                <Header />
+                <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
+                    <div className="w-[70vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
+                        <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
+                            <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">참가자 랭킹</div>
+                            <div>Do the G 2023 대회의 랭킹입니다.</div>
+                        </div>
+                        <SubManu />
+                        {mode ? <OriginBar date={dates} size={sizeO} labels={labelO} songScore1={songScore1O} songScore2={songScore2O} songScore3={songScore3O} />
+                            :
+                            <ChogosuBar date={dates} size={sizeC} labels={labelC} songScore1={songScore1C} songScore2={songScore2C} songScore3={songScore3C} />}
+                        {mode ? <OriginGird /> : <ChogosuGird />}
                     </div>
-                    <SubManu />
-                    {mode ? <OriginBar date={dates} size={sizeO} labels={labelO} songScore1={songScore1O} songScore2={songScore2O} songScore3={songScore3O} />
-                        :
-                        <ChogosuBar date={dates} size={sizeC} labels={labelC} songScore1={songScore1C} songScore2={songScore2C} songScore3={songScore3C} />}
-                    {mode ? <OriginGird /> : <ChogosuGird />}
                 </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
+        </>
     )
 }

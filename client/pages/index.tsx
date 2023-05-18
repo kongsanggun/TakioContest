@@ -1,4 +1,5 @@
 import Header from '../components/header';
+import Spanner from '@/components/spanner';
 import Footer from '../components/footer';
 
 import Router from "next/router";
@@ -12,9 +13,9 @@ import ChogosuSmile from '../public/img/chogosu-smile.gif';
 import Link from 'next/link';
 
 export default function Main() {
-
     const [url, setUrl] = useState("");
     const [openAlert, setOpenAlert] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [count, setCount] = useState(0);
     const [dates, setDates] = useState({
         start: "",
@@ -48,9 +49,8 @@ export default function Main() {
                         start: start,
                         end: end
                     });
-
+                    setLoading(!loading);
                 });
-
         } catch (Error) {
             Router.push("/error");
             return;
@@ -212,6 +212,7 @@ export default function Main() {
 
     return (
         <>
+            {<Spanner loading={loading}/>}
             {openAlert && <ModalMovie onOpenAlert={onModalMovie} url={url} />}
             <div className="bg-[#F9F9FB]">
                 <Header />
