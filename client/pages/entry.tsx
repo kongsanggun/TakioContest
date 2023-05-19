@@ -75,7 +75,7 @@ export default function Entry() {
         const snom = inputs.entryName.includes('누니머기');
         const ass = inputs.entryName.includes('엉덩이') || inputs.entryName.includes('궁뎅이') || inputs.entryName.includes('빵뎅이') || inputs.entryName.includes('오시리') || inputs.entryName.includes('둔부');
         const not = inputs.entryName.includes('아니') || inputs.entryName.includes('아님') || inputs.entryName.includes('다르')
-        const NG = inputs.entryName.includes('누엉')
+        const NG = inputs.entryName.includes('누엉') || inputs.entryName.includes('오시리스시')
 
         if (snom && ass && !not ) {
             return false;
