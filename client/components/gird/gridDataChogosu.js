@@ -37,8 +37,9 @@ export default function GridData() {
       el: document.getElementById("grid"),
       data: dataSource,
       scrollX: false,
-      scrollY: false,
-      rowHeight: "auto",
+      scrollY: true,
+      rowHeight: "600px",
+      selectionUnit: 'row',
       columns: [
         {
           header: "#",
@@ -55,7 +56,9 @@ export default function GridData() {
                   ? "#435F7A"
                   : Number(props.value) == 3
                   ? "#AD5601"
-                  : "#FFF",
+                  : Number(props.value) < 9
+                  ? "#AD5601"
+                  : "#000",
             },
             classNames: ["my-styled-cell"],
           },
@@ -63,6 +66,7 @@ export default function GridData() {
         {
           name: "entryName",
           header: "닉네임",
+          width: 'auto',
           align: "center",
         },
         {
@@ -74,24 +78,29 @@ export default function GridData() {
         {
           name: "songTotal",
           header: "Total",
+          width: 100,
           align: "center",
         },
         {
           name: "songScore1",
           header: "Xevel",
+          width: 100,
           align: "center",
         },
         {
           name: "songScore2",
           header: "Hurtling Boys",
+          width: 100,
           align: "center",
         },
         {
           name: "songScore3",
           header: "ANiMA",
+          width: 100,
           align: "center",
         },
       ],
+      contextMenu : null,
     });
   }
 
@@ -99,5 +108,5 @@ export default function GridData() {
     initGrid();
   }, []);
 
-  return <div id="grid" className="text-xs w-full h-auto"></div>;
+  return <div id="grid" className="w-full h-auto text-xs"></div>;
 }

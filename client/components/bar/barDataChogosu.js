@@ -37,34 +37,60 @@ export default function BarData({date, size, labels, songScore1, songScore2, son
         },
       },
       legend: {
-        align: "bottom",
+        fontFamily: "SDKukdetopokki-Lt",
+        align: "top",
         showCheckbox: false,
       },
       series: {
         stack: true,
         dataLabels: { visible: true },
+        eventDetectType: 'grouped'
       },
       xAxis: {
         scale: {
           min: 0,
-          max: 3100000,
-          stepSize: 250000,
+          max: 3500000,
+          stepSize: 500000,
         },
         tick: {
-          interval: 1,
+          interval: 2,
         },
         label: {
-          interval: 4,
+          interval: 2,
+        },
+        margin: 50
+      },
+      tooltip: {
+        formatter: (value, tooltipDataInfo) => {
+          return `${value}점`;
         },
       },
       theme: {
         series: {
+          dataLabels: {
+            fontFamily: "SDKukdetopokki-Lt",
+            textStrokeColor: '#ffffff',
+            shadowColor: '#ffffff',
+            shadowBlur: 3,    
+            color: '#1B1C1C',
+            stackTotal: {
+              fontFamily: "SDKukdetopokki-Lt",
+              fontWeight: 14,
+              color: '#1876A9',
+              textBubble:{
+                visible: false,
+              }
+            }
+          },
           barWidth: 40,
-          colors: ["#FF0000", "#FFFF00", "#03FF00"],
+          colors: ["#BED5ED", "#89AEC5", "#506B92"],
         },
         xAxis: {
+          label: {
+            fontFamily: "SDKukdetopokki-Lt",
+          },
           margin: 40,
-          color: "#BEC0D7",
+          color: "#919EA2",
         },
         yAxis: {
           label: {
@@ -72,8 +98,22 @@ export default function BarData({date, size, labels, songScore1, songScore2, son
           },
           width: 1,
           margin: 50,
-          color: "#BEC0D7",
+          color: "#919EA2",
         },
+        legend: {
+          label: {
+            fontFamily: "SDKukdetopokki-Lt",
+            fontSize: 15,
+          }
+        },
+        tooltip: {
+          header: {
+            fontFamily: "SDKukdetopokki-Lt",
+          },
+          body: {
+            fontFamily: "SDKukdetopokki-Lt",
+          }
+        }
       },
       exportMenu: {
         visible: false,
@@ -103,7 +143,7 @@ export default function BarData({date, size, labels, songScore1, songScore2, son
   return (
     <div className="my-6">
       <RankMain />
-      <div id="chart" className="text-xs w-full h-[30vh]"></div>
+      <div id="chart" className="text-xs w-full h-[500px]"></div>
     </div>
   );
 }

@@ -24,7 +24,7 @@ export default function Main() {
 
     useEffect(() => {
         init();
-    },[]);
+    }, []);
 
     const init = async () => {
         try {
@@ -78,10 +78,10 @@ export default function Main() {
                         <div className="mb-2">
                             <span className="text-[#d19c63] font-['SDKukdetopokki'] text-border-white">Do the G 초고수</span>가 될 수 있는 기회에 도전해보세요!
                         </div>
-                        <div className="text-base sm:text-lg mb-2">
+                        <div className="mb-2 text-base sm:text-lg">
                             참여 기간 : <span className="font-['SDKukdetopokki']">{dates.start}</span> ~ <span className="font-['SDKukdetopokki']">{dates.end}</span>
                         </div>
-                        <div className="text-base sm:text-lg mb-3 sm:mb-4">
+                        <div className="mb-3 text-base sm:text-lg sm:mb-4">
                             현재 <span className="font-['SDKukdetopokki']">{count}</span>명이 이 대회에 참여 중입니다.
                         </div>
                         <div className='text-sm'>
@@ -96,7 +96,7 @@ export default function Main() {
 
     const DoTheG = () => {
         return (
-            <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] flex flex-col items-center">
+            <div className="">
                 <div className="w-[70vw] mt-10 pb-10 border-b-[1.5px] border-b-[#dfe0ea] text-[#121316] text-base flex flex-col font-['SDKukdetopokki-Lt']">
                     <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">Do the G란 무엇인가요?</div>
                     <div className="mb-6 w-[full] h-auto">
@@ -212,7 +212,7 @@ export default function Main() {
 
     return (
         <>
-            {<Spanner loading={loading}/>}
+            {/*<Spanner loading={loading}/>*/}
             {openAlert && <ModalMovie onOpenAlert={onModalMovie} url={url} />}
             <div className="bg-[#F9F9FB]">
                 <Header />

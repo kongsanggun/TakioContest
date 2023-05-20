@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import Router from "next/router";
 import dynamic from 'next/dynamic'
 import React, { useState, useEffect } from "react";
+import Precontest from '@/components/ranking/precontest';
 
 export default function Entry() {
 
@@ -83,11 +84,13 @@ export default function Entry() {
                     setSizeO(rankData.length); // 참가자 수
 
                     rankData.forEach((element: { entryName: never; songScore1: never; songScore2: never; songScore3: never; }, index: any) => {
-                        labelO.push(element.entryName);
+                        if (index < 8) {
+                            labelO.push(element.entryName);
 
-                        songScore1O.push(element.songScore1);
-                        songScore2O.push(element.songScore2);
-                        songScore3O.push(element.songScore3);
+                            songScore1O.push(element.songScore1);
+                            songScore2O.push(element.songScore2);
+                            songScore3O.push(element.songScore3);
+                        }
                     });
                 });
 
@@ -109,11 +112,13 @@ export default function Entry() {
                     setSizeC(rankData.length); // 참가자 수
 
                     rankData.forEach((element: { entryName: never; songScore1: never; songScore2: never; songScore3: never; }, index: any) => {
-                        labelC.push(element.entryName);
+                        if (index < 8) {
+                            labelC.push(element.entryName);
 
-                        songScore1C.push(element.songScore1);
-                        songScore2C.push(element.songScore2);
-                        songScore3C.push(element.songScore3);
+                            songScore1C.push(element.songScore1);
+                            songScore2C.push(element.songScore2);
+                            songScore3C.push(element.songScore3);
+                        }
                     });
                     setLoading(!loading);
                 });
@@ -179,6 +184,7 @@ export default function Entry() {
                             <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">참가자 랭킹</div>
                             <div>Do the G 2023 대회의 랭킹입니다.</div>
                         </div>
+                        { (Number(dates.start.replaceAll("-","")) > Number(new Date().toISOString().split('T')[0].replaceAll("-",""))) && <Precontest/> }
                         <SubManu />
                         {mode ? <OriginBar date={dates} size={sizeO} labels={labelO} songScore1={songScore1O} songScore2={songScore2O} songScore3={songScore3O} />
                             :

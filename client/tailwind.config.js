@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const main_div = "w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] flex flex-col items-center"
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
