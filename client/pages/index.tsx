@@ -12,7 +12,7 @@ import MainIndex from '../public/img/main-index.png';
 import ChogosuSmile from '../public/img/chogosu-smile.gif';
 import Link from 'next/link';
 
-export default function Main() {
+export default function Index() {
     const [url, setUrl] = useState("");
     const [openAlert, setOpenAlert] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -21,6 +21,14 @@ export default function Main() {
         start: "",
         end: "",
     });
+
+    // 주로 자주 사용하는 CSS 정리
+    const mainDiv = "w-full h-auto flex flex-col items-center"
+    const segDiv = "w-[70vw] h-auto py-10 text-[#121316] text-base flex flex-col font-['SDKukdetopokki-Lt']"
+    const segTitle = "w-full h-auto text-4xl mb-6 font-['SDKukdetopokki']"
+    const segSubTitle = "w-full h-auto text-2xl mb-4 font-['SDKukdetopokki']"
+    const segp = "w-full h-auto"
+    const seglink = "w-[15%] h-auto text-[#245A8D] hover:text-[#1C3449] font-['SDKukdetopokki']"
 
     useEffect(() => {
         init();
@@ -40,17 +48,17 @@ export default function Main() {
                 }
                 return res.json();
             }).then(async (data) => {
-                    const counts = data.count;
-                    const start = data.start.split('T')[0];
-                    const end = data.end.split('T')[0];
+                const counts = data.count;
+                const start = data.start.split('T')[0];
+                const end = data.end.split('T')[0];
 
-                    setCount(counts); // 참가자 수
-                    setDates({
-                        start: start,
-                        end: end
-                    });
-                    setLoading(!loading);
+                setCount(counts); // 참가자 수
+                setDates({
+                    start: start,
+                    end: end
                 });
+                setLoading(!loading);
+            });
         } catch (Error) {
             Router.push("/error");
             return;
@@ -94,42 +102,40 @@ export default function Main() {
         )
     } // 메인 대문란
 
+    const Main = () => {
+        return (
+            <div className={mainDiv}>
+                <DoTheG />
+                <Naru />
+                <Contest />
+                <Notice />
+            </div>
+        )
+    }
+
     const DoTheG = () => {
         return (
-            <div className="">
-                <div className="w-[70vw] mt-10 pb-10 border-b-[1.5px] border-b-[#dfe0ea] text-[#121316] text-base flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">Do the G란 무엇인가요?</div>
-                    <div className="mb-6 w-[full] h-auto">
-                        Do the G는 2000년 대 후반 온게임넷 채널에서 방송했던 방송 프로그램입니다.<br />
-                        위 프로그램은 그 당시 여러 게임을 소개하는 컨텐츠가 주로 이루어지고 있었습니다.<br />
-                        그 중 여러 게임에서 고수를 소개하고 비법을 전수하는 G-익사이팅도 있었습니다.
-                    </div>
-                </div>
+            <div className={segDiv + " border-b-[1.5px] border-b-[#dfe0ea]"}>
+                <div className={segTitle}> Do the G란 무엇인가요? </div>
+                <div className={segp + " mb-1"}> Do the G는 2000년 대 후반 온게임넷 채널에서 방송했던 방송 프로그램입니다.</div>
+                <div className={segp + " mb-1"}> 위 프로그램은 그 당시 여러 게임을 소개하는 컨텐츠가 주로 이루어지고 있었습니다.</div>
+                <div className={segp}> 그 중 여러 게임에서 고수를 소개하고 비법을 전수하는 G-익사이팅도 있었습니다.</div>
             </div>
         )
     }
 
     const Naru = () => {
         return (
-            <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] flex flex-col items-center">
-                <div className="w-[70vw] mt-10 pb-10 border-b-[1.5px] border-b-[#dfe0ea] text-[#121316] text-base flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">태고의 달인의 초고수를 소개합니다.</div>
-                    <div className="mb-2 w-[full] h-auto">
-                        Do the G에 등장한 태고의 새로운 초고수 Naru님을 소개합니다! 👏👏👏<br />
-                    </div>
-                    <div className="mb-2 w-[full] h-auto">
-                        Do the G 87회 방송에서 태고의 달인 초고수로 출현하여<br />
-                        그 당시 초난관곡들을 풀콤하시고 여러가지 비법을 전수한 내용이 담겨있습니다.<br />
-                    </div>
-                    <div className="mb-5 w-[full] h-auto">
-                        그 외에도 비공식 대회 우승 및 해설 그리고 이벤트에서 초고수로도 등장하신 적이 있답니다.<br />
-                    </div>
-                    <div className="mb-10 w-[full] h-auto">
-                        <Image src={ChogosuSmile} height={120} width={120} alt='웃는 모습'></Image>
-                    </div>
-                    <div className="mb-3 w-[full] h-auto">
-                        <div className="text-[#245A8D] font-['SDKukdetopokki']" onClick={function () { onModalMovie("QPvz01_QsQc?start=49") }}>영상보기 📺</div>
-                    </div>
+            <div className={segDiv + " border-b-[1.5px] border-b-[#dfe0ea]"}>
+                <div className={segTitle}> 태고의 달인의 초고수를 소개합니다. </div>
+                <div className={segp + " mb-1"}> Do the G에 등장한 태고의 새로운 초고수 Naru님을 소개합니다! 👏👏👏</div>
+                <div className={segp + " mb-1"}> Do the G 87회 방송에서 태고의 달인 초고수로 출현하여 그 당시 초난관곡들을 풀콤하시고 여러가지 비법을 전수한 내용이 담겨있습니다.</div>
+                <div className={segp + " mb-6"}>  그 외에도 비공식 대회 우승 및 해설 그리고 이벤트에서 초고수로도 등장하신 적이 있답니다. </div>
+                <div className="mb-6 w-[full] h-auto">
+                    <Image src={ChogosuSmile} height={120} width={120} alt='웃는 모습'></Image>
+                </div>
+                <div className={segp}>
+                    <div className={seglink} onClick={function () { onModalMovie("QPvz01_QsQc?start=49") }}>영상보기 📺</div>
                 </div>
             </div>
         )
@@ -137,47 +143,37 @@ export default function Main() {
 
     const Contest = () => {
         return (
-            <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] flex flex-col items-center">
-                <div className="w-[70vw] mt-10 pb-10 border-b-[1.5px] border-b-[#dfe0ea] text-[#121316] text-base flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">Do the G 2023 대회에 대해서</div>
-                    <div className="mb-8 w-[full] h-auto">
-                        해당 대회는 2가지 모드로 나뉘어서 온라인으로 진행합니다.<br />
-                        각 모드의 자세한 내용은 다음과 같습니다.
-                    </div>
-                    <div className="mb-8 w-[full] h-auto">
-                        <div className='font-["SDKukdetopokki"] text-2xl mb-4'>오리지널 모드</div>
-                        <div className='mb-4'>
-                            Do the G 방송에서 나온 초고수 인증 오리지널 그 자체입니다.<br />
-                            초고수 인증 그대로 도전해보세요!
+            <div className={segDiv + " border-b-[1.5px] border-b-[#dfe0ea]"}>
+                <div className={segTitle}> Do the G 2023 대회에 대해서 </div>
+                <div className={segp + " mb-1"}> 해당 대회는 2가지 모드로 나뉘어서 온라인으로 진행합니다. </div>
+                <div className={segp + " mb-6"}> 각 모드의 자세한 내용은 다음과 같습니다. </div>
+
+                <li className={segSubTitle}> 오리지널 모드 </li>
+                <div className={segp + " mb-1"}> Do the G 방송에서 나온 초고수 인증 오리지널 그 자체입니다. </div>
+                <div className={segp + " mb-4"}> 초고수 인증 그대로 도전해보세요! </div>
+                <div className='py-4 px-4 mb-8 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
+                        <div className='text-xl mb-4 text-[#245A8D]'>🎯 과제곡 🎯</div>
+                        <div>
+                            <div className='mb-2 w-[full]'>연애편지 2000 (연문 2000) <span onClick={function () { onModalMovie("QPvz01_QsQc?start=97") }} className='text-rose-600'>▶️</span></div>
+                            <div className='mb-2 w-[full]'>타베루나 2000 <span onClick={function () { onModalMovie("QPvz01_QsQc?start=181") }} className='text-rose-600'>▶️</span></div>
+                            <div className='w-[full]'>키타사이타마 2000 <span onClick={function () { onModalMovie("QPvz01_QsQc?start=311") }} className='text-rose-600'>▶️</span></div>
                         </div>
-                        <div className='py-4 px-4 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
-                            <div className='text-xl mb-4 text-[#245A8D]'>🎯 과제곡 🎯</div>
-                            <div>
-                                <div className='mb-2 w-[full]'>연애편지 2000 (연문 2000) <span onClick={function () { onModalMovie("QPvz01_QsQc?start=97") }} className='text-rose-600'>▶️</span></div>
-                                <div className='mb-2 w-[full]'>타베루나 2000 <span onClick={function () { onModalMovie("QPvz01_QsQc?start=181") }} className='text-rose-600'>▶️</span></div>
-                                <div className='w-[full]'>키타사이타마 2000 <span onClick={function () { onModalMovie("QPvz01_QsQc?start=311") }} className='text-rose-600'>▶️</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="mb-8 w-[full] h-auto">
-                        <div className='font-["SDKukdetopokki"] text-2xl mb-4'>초고수 모드</div>
-                        <div className='mb-4'>
-                            Do the G 초고수 Naru가 직접 선정한 과제곡들입니다!<br />
-                            초고수가 인정하는 진정한 태고의 달인 초고수에 도전하세요.<br />
-                            인 단위 이상의 실력자라면 이 쪽에 도전해보세요!
-                        </div>
-                        <div className='py-4 px-4 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
-                            <div className='text-xl mb-4 text-[#245A8D]'>🎯 과제곡 🎯</div>
-                            <div>
-                                <div className='mb-2 w-[full]'>Xevel <span onClick={function () { onModalMovie("xbVQb-9M5IQ?start=9") }} className='text-rose-600'>▶️</span></div>
-                                <div className='mb-2 w-[full]'>Hurtling Boys <span onClick={function () { onModalMovie("_AoWY5A_xFk?start=28") }} className='text-rose-600'>▶️</span></div>
-                                <div className='w-[full]'>ANiMA <span onClick={function () { onModalMovie("HcJuuIWMJ8w?start=8") }} className='text-rose-600'>▶️</span></div>
-                            </div>
+                </div>
+
+                <li className={segSubTitle}> 초고수 모드 </li>
+                <div className={segp + " mb-1"}> Do the G 초고수 Naru가 직접 선정한 과제곡들입니다! </div>
+                <div className={segp + " mb-1"}> 초고수가 인정하는 진정한 태고의 달인 초고수에 도전하세요. </div>
+                <div className={segp + " mb-4"}> 인 단위 이상의 실력자라면 이 쪽에 도전해보세요! </div>
+                <div className='py-4 px-4 mb-6 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
+                        <div className='text-xl mb-4 text-[#245A8D]'>🎯 과제곡 🎯</div>
+                        <div>
+                            <div className='mb-2 w-[full]'>Xevel <span onClick={function () { onModalMovie("xbVQb-9M5IQ?start=9") }} className='text-rose-600'>▶️</span></div>
+                            <div className='mb-2 w-[full]'>Hurtling Boys <span onClick={function () { onModalMovie("_AoWY5A_xFk?start=28") }} className='text-rose-600'>▶️</span></div>
+                            <div className='w-[full]'>ANiMA <span onClick={function () { onModalMovie("HcJuuIWMJ8w?start=8") }} className='text-rose-600'>▶️</span></div>
                         </div>
                     </div>
-                    <div className="mb-3 w-[full] h-auto">
-                        <Link className="text-[#245A8D] font-['SDKukdetopokki']" href="/ranking">각 모드 랭킹 🏆</Link>
-                    </div>
+                <div className={segp}>
+                    <Link className={seglink} href="/ranking">각 모드 랭킹 🏆</Link>
                 </div>
             </div>
         )
@@ -185,26 +181,23 @@ export default function Main() {
 
     const Notice = () => {
         return (
-            <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] flex flex-col items-center">
-                <div className="w-[70vw] mt-10 pb-10 text-[#121316] text-base flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">유의 사항</div>
-                    <div className="mb-4 w-[full] h-auto">
-                        아래 유의사항을 잘 읽어보세요.<br />
-                        일부 사항은 위반시 <span className="text-[#FF0000] font-['SDKukdetopokki']">위 대회에 바로 제외되며 추후에 불이익을 받을 수 있습니다.</span>
+            <div className={segDiv}>
+                <div className={segTitle}>유의 사항</div>
+                <div className={segp + " mb-1"}> 아래 유의사항을 잘 읽어보세요. </div>
+                <div className={segp + " mb-6"}> 일부 사항은 위반시 <span className="text-[#FF0000] font-['SDKukdetopokki']">위 대회에 바로 제외되며 추후에 불이익을 받을 수 있습니다.</span> </div>
+
+                <div className='py-4 px-4 mb-10 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
+                    <div className='text-xl mb-4 text-[#FF0000]'>⚠️ 주의 사항 ⚠️</div>
+                    <div>
+                        <p className='mb-3 w-[full]'> 모드는 하나만 선택할 수 있습니다. <br /> 가급적이면 자신의 실력에 맞게 모드를 선택해주세요. </p>
+                        <p className='mb-3 w-[full]'> 정정당당한 실력으로 스스로 참가해주세요. </p>
+                        <p className='mb-3 w-[full]'> 1인당 1계정으로만 참가해주세요. 중복 참가를 금합니다. </p>
+                        <p className='mb-3 w-[full]'> 대회 집계가 안될 경우도 있습니다. <br /> 있다면 사진 및 시간을 입력하여 저한테 연락해주세요. </p>
+                        <p className='mb-3 w-[full]'> 참가 이름의 경우 자유지만 정치, 특정 커뮤니티 은어 등과 같은  <br /> 민감한 주제를 가지는 이름으로 참가할 경우 바로 제외 될 수 있습니다. </p>
                     </div>
-                    <div className='py-4 px-4 mb-10 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
-                        <div className='text-xl mb-4 text-[#FF0000]'>⚠️ 주의 사항 ⚠️</div>
-                        <div>
-                            <p className='mb-3 w-[full]'> 모드는 하나만 선택할 수 있습니다. <br /> 가급적이면 자신의 실력에 맞게 모드를 선택해주세요. </p>
-                            <p className='mb-3 w-[full]'> 정정당당한 실력으로 스스로 참가해주세요. </p>
-                            <p className='mb-3 w-[full]'> 1인당 1계정으로만 참가해주세요. 중복 참가를 금합니다. </p>
-                            <p className='mb-3 w-[full]'> 대회 집계가 안될 경우도 있습니다. <br /> 있다면 사진 및 시간을 입력하여 저한테 연락해주세요. </p>
-                            <p className='mb-3 w-[full]'> 참가 이름의 경우 자유지만 정치, 특정 커뮤니티 은어 등과 같은  <br /> 민감한 주제를 가지는 이름으로 참가할 경우 바로 제외 될 수 있습니다. </p>
-                        </div>
-                    </div>
-                    <div className="mb-3 w-[full] h-auto">
-                        <Link className="text-[#245A8D] font-['SDKukdetopokki']" href="/entry">대회 참여하기 🥁</Link>
-                    </div>
+                </div>
+                <div className={segp}>
+                    <Link className={seglink} href="/entry">대회 참여하기 🥁</Link>
                 </div>
             </div>
         )
@@ -214,13 +207,10 @@ export default function Main() {
         <>
             {/*<Spanner loading={loading}/>*/}
             {openAlert && <ModalMovie onOpenAlert={onModalMovie} url={url} />}
-            <div className="bg-[#F9F9FB]">
+            <div className="bg-[#F9F9FB] w-full h-auto">
                 <Header />
                 <MainDoor />
-                <DoTheG />
-                <Naru />
-                <Contest />
-                <Notice />
+                <Main />
                 <Footer />
             </div>
         </>

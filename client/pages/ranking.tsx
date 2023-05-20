@@ -152,6 +152,17 @@ export default function Entry() {
         { ssr: false }
     )
 
+    const Contest = () => {
+        return (
+            <>
+                {mode ? <OriginBar date={dates} size={sizeO} labels={labelO} songScore1={songScore1O} songScore2={songScore2O} songScore3={songScore3O} />
+                    :
+                    <ChogosuBar date={dates} size={sizeC} labels={labelC} songScore1={songScore1C} songScore2={songScore2C} songScore3={songScore3C} />}
+                {mode ? <OriginGird /> : <ChogosuGird />}
+            </>
+        )
+    }
+
     const SubManu = () => {
         return (
             <div className='w-full h-auto'>
@@ -184,12 +195,8 @@ export default function Entry() {
                             <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">참가자 랭킹</div>
                             <div>Do the G 2023 대회의 랭킹입니다.</div>
                         </div>
-                        { (Number(dates.start.replaceAll("-","")) > Number(new Date().toISOString().split('T')[0].replaceAll("-",""))) && <Precontest/> }
                         <SubManu />
-                        {mode ? <OriginBar date={dates} size={sizeO} labels={labelO} songScore1={songScore1O} songScore2={songScore2O} songScore3={songScore3O} />
-                            :
-                            <ChogosuBar date={dates} size={sizeC} labels={labelC} songScore1={songScore1C} songScore2={songScore2C} songScore3={songScore3C} />}
-                        {mode ? <OriginGird /> : <ChogosuGird />}
+                        {(Number(dates.start.replaceAll("-", "")) <= Number(new Date().toISOString().split('T')[0].replaceAll("-", ""))) ? <Precontest /> : <Contest />}
                     </div>
                 </div>
                 <Footer />

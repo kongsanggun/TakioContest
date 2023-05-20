@@ -60,7 +60,7 @@ export default function Main() {
 
             alert('로그인 성공!');
             localStorage.setItem('token', resJSON.token);
-            Router.push("/admin");
+            Router.push("/admin/user");
 
         } catch (Error) {
             if (Error) {
@@ -89,10 +89,10 @@ export default function Main() {
                         </div>
                         <div className='py-4 px-4 mt-5 bg-[#F7F6F3] border-[1px] border-[#dfe0ea] rounded-lg'>
                             <p className='text-xl mb-4 w-[full]'>ID</p>
-                            <input className='text-base mb-6 p-2 w-full border-2 rounded-md' type="text" id="username" name="username" onChange={onChange} />
+                            <input className='w-full p-2 mb-6 text-base border-2 rounded-md' type="text" id="username" name="username" onChange={onChange} />
                             <p className='text-xl mb-4 w-[full]'>Password</p>
-                            <input className='text-base mb-6 p-2 w-full border-2 rounded-md' type="password" id="password" name="password" onChange={onChange} />
-                                <div className='w-full h-auto mb-3 flex flex-col items-center'> 
+                            <input className='w-full p-2 mb-6 text-base border-2 rounded-md' type="password" id="password" name="password" onChange={onChange} />
+                                <div className='flex flex-col items-center w-full h-auto mb-3'> 
                             <button className='text-base p-3 w-[15vw] h-auto bg-slate-500 rounded-md' type="submit" onClick={login} >로그인</button>
                             </div>
                         </div>

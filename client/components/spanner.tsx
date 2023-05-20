@@ -3,7 +3,7 @@ import {Oval} from "react-loader-spinner"
 
 const Spanner = ({loading} : any) => {
     return (
-        <div className={'h-screen w-full bg-scroll left-0 right-0 top-0 flex fixed justify-center items-center bg-[#DAECFC] text-center duration-1000 ' + ((loading == true) ? 'opacity-100 z-10': 'opacity-0 -z-10')}>
+        <div className={'h-screen w-full bg-scroll left-0 right-0 top-0 flex fixed justify-center items-center bg-[#F9F9FB] text-center duration-1000 ' + ((loading == true) ? 'opacity-100 z-10': 'opacity-0 -z-10')}>
             <Oval
                 height={95}
                 width={95}
