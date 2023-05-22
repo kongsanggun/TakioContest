@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Chart from "@toast-ui/chart";
 import "@toast-ui/chart/dist/toastui-chart.min.css"; // Chart 스타일
 
-export default function BarData({date, size, labels, songScore1, songScore2, songScore3}) {
+export default function BarData({size, labels, songScore1, songScore2, songScore3}) {
   useEffect(() => {
     initBar();
   }, []);
@@ -86,15 +86,9 @@ export default function BarData({date, size, labels, songScore1, songScore2, son
   const RankMain = () => {
     return (
       <div className="w-full h-auto">
-        <p className="text-base mb-2 w-[full]">
-          기간 : {date.start} ~ {date.end}
-        </p>
         <p className="text-base mb-4 w-[full]">
           참가자 수 : {size}명
           <br />
-        </p>
-        <p className="text-base mb-2 w-[full]">
-          랭킹 갱신은 매일 06:00에 갱신됩니다.
         </p>
       </div>
     );
