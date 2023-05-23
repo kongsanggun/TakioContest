@@ -41,12 +41,12 @@ export default function Entry() {
     const nonActive = "w-auto h-full text-base sm:text-xl font-['SDKukdetopokki-Lt'] mr-10 text-[#121316] border-b-[#245A8D] hover:text-[#245A8D] hover:border-b-2 duration-150"
 
     const compareStart = Number(dates.start.replaceAll("-", ""))
-    const now = Number(new Date("2023-06-12").toISOString().split('T')[0].replaceAll("-", ""))
+    const now = Number(new Date().toISOString().split('T')[0].replaceAll("-", ""))
 
     const puls = new Date()
     puls.setDate(puls.getDate() + 3)
 
-    const now2 = Number(new Date("2023-06-12").toISOString().split('T')[0].replaceAll("-", ""))
+    const now2 = Number(new Date().toISOString().split('T')[0].replaceAll("-", ""))
     const compareEnd = Number(dates.end.replaceAll("-", ""))
 
     useEffect(() => {
@@ -207,7 +207,7 @@ export default function Entry() {
 
     return (
         <>
-            {/*<Spanner loading={loading} />*/}
+            {<Spanner loading={loading} />}
             <div className='bg-[#F9F9FB]'>
                 <Header />
                 <div className={mainDiv}>

@@ -4,12 +4,15 @@ import Footer from '../components/footer';
 
 import Router from "next/router";
 import React, { useRef, useState } from "react";
+
 import ModalAlert from "../components/alert/modalAlert";
+import ModalComfirm from '../components/alert/modalComfirm';
 import NualmotAlert from "../components/alert/nualmotAlert";
 import ModelHowTo from "../components/alert/modelHowTo";
 
 export default function Entry() {
     const [openAlert, setOpenAlert] = useState(false);
+    const [openComfirm, setOpenComfirm] = useState(false);
     const [openSnom, setOpenSnom] = useState(false);
     const [openHowto, setOpenHowto] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -35,6 +38,14 @@ export default function Entry() {
     const inputDiv = "w-full h-auto p-2 mb-6 text-sm text-base border-2 focus:border-[#BED5ED] rounded-lg"
     const inputButton = "text-sm sm:text-base text-[#F9F9FB] hover:text-[#3E484A] font-['SDKukdetopokki'] py-3 w-[150px] h-auto bg-slate-500 rounded-3xl bg-gradient-to-r from-[#ADE9F1] to-[#0A96E9] duration-300";
 
+    const onModalComfirm = () => {
+        let HTML = document.querySelector('html');
+        setOpenComfirm(!openComfirm);
+        if (HTML !== null) {
+            openComfirm ? HTML.style.overflowY = "auto" : HTML.style.overflowY = "hidden";
+        }
+    }
+    
     const onModalAlert = () => {
         let HTML = document.querySelector('html');
         setOpenAlert(!openAlert);
@@ -171,7 +182,8 @@ export default function Entry() {
             return;
         } // 누알못 탐지
 
-        //PostEntry();
+        setAlertMessage("등록하시겠습니까?");
+        setOpenComfirm(!openComfirm);
     } // 등록하기
 
     const Radio = () => {
@@ -207,8 +219,9 @@ export default function Entry() {
         <>
             {openHowto && <ModelHowTo onOpenAlert={onHowtoAlert} />}
             {openAlert && <ModalAlert onOpenAlert={onModalAlert} data={alertMessage} />}
+            {openComfirm && <ModalComfirm onOpenAlert={onModalComfirm} onConfirm={() => { setOpenComfirm(!openComfirm); PostEntry(); }} data={alertMessage} />}
             {openSnom && <NualmotAlert onOpenAlert={onSnomAlert} onConfirm={() => { setOpenSnom(!openSnom); PostEntry(); }} />}
-            <div className={"w-full h-auto bg-[#F9F9FB]" + (openAlert ? " blur-sm" : "") + (openSnom ? " blur-sm" : "") + (openHowto ? " blur-sm" : "")}>
+            <div className={"w-full h-auto bg-[#F9F9FB]" + (openAlert ? " blur-sm" : "") + (openSnom ? " blur-sm" : "") + (openHowto ? " blur-sm" : "") + (openComfirm ? " blur-sm" : "")} >
                 <Header />
                 <div className={mainDiv}>
                     <div className={segDiv}>

@@ -138,8 +138,8 @@ export default function Index() {
                 <div className={segp + " mb-1"}> Do the G 87회 방송에서 태고의 달인 초고수로 출현하여 그 당시 초난관곡들을 풀콤하시고 여러가지 비법을 전수한 내용이 담겨있습니다.</div>
                 <div className={segp + " mb-6 sm:mb-0"}>  그 외에도 비공식 대회 우승 및 해설 그리고 이벤트에서 초고수로도 등장하신 적이 있답니다. </div>
                 <div className="flex-row hidden w-full h-auto my-10 sm:flex">
-                    <Image src={ChogosuIntroduce} height={120} width={120} alt='안녕하세요' className = 'mr-6'></Image>
-                    <Image src={ChogosuSmile} height={120} width={120} alt='웃는 모습'></Image>
+                    <Image src={ChogosuIntroduce} height={120} width={120} alt='안녕하세요' className = 'mr-6 drop-shadow-md'></Image>
+                    <Image src={ChogosuSmile} height={120} width={120} alt='웃는 모습' className = 'drop-shadow-md'></Image>
                 </div>
                 <div className={segp}>
                     <div className={seglink} onClick={function () { onModalMovie("QPvz01_QsQc?start=49") }}>영상보기 📺</div>

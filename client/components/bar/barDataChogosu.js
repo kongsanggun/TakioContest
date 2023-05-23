@@ -40,10 +40,9 @@ export default function BarData({
         },
       ],
     };
-    // TODO: 반응형으로 바꾸기
     const options = {
       chart: {
-        width: 500,
+        width: "auto",
         height: 500,
         animation: {
           duration: 1500,
@@ -149,7 +148,92 @@ export default function BarData({
         visible: false,
       },
       responsive: {
-        rules: [],
+        rules: [
+          {
+            condition: ({ width: w }) => {
+              return w <= 490;
+            },
+            options: {
+              series: {
+                stack: true,
+                dataLabels: { visible: false },
+              },
+              yAxis: {
+                label: {
+                  formatter: (value) => {
+                    if (value.length > 2) {
+                      return `${value.substr(0, 2)}..`;
+                    }
+                    return `${value}`;
+                  },
+                },
+                width: 30,
+              },
+              legend: {
+                visible: false,
+              },
+              tooltip: {
+                template: (model, defaultTooltipTemplate, theme) => {
+                  const { body, header } = defaultTooltipTemplate;
+                  const { background } = theme;
+
+                  const label = [
+                    model.data[0].label.substr(0, 5) + "..",
+                    model.data[1].label.substr(0, 5) + "..",
+                    model.data[2].label.substr(0, 5) + "..",
+                  ];
+                  const value = [
+                    model.data[0].value,
+                    model.data[1].value,
+                    model.data[2].value,
+                  ];
+
+                  return `<div style="background: ${background}; width: 140px; text-align: center; color: white;">
+                          ${header}
+                          <div class="toastui-chart-tooltip-series-wrapper" style="font-weight: normal; font-family: SDKukdetopokki-Lt; font-size: 6px; color: #ffffff;">
+                          <div class="toastui-chart-tooltip-series">
+                                    <span class="toastui-chart-series-name">
+                        <i class="toastui-chart-icon" style="background: #BED5ED"></i>
+                        <span class="toastui-chart-name">${label[0]}</span>
+                      </span>
+                                    <span class="toastui-chart-series-value">${value[0]}</span>
+                                  </div><div class="toastui-chart-tooltip-series">
+                                    <span class="toastui-chart-series-name">
+                        <i class="toastui-chart-icon" style="background: #89AEC5"></i>
+                        <span class="toastui-chart-name">${label[1]}</span>
+                      </span>
+                                    <span class="toastui-chart-series-value">${value[1]}</span>
+                                  </div><div class="toastui-chart-tooltip-series">
+                                    <span class="toastui-chart-series-name">
+                        <i class="toastui-chart-icon" style="background: #506B92"></i>
+                        <span class="toastui-chart-name">${label[2]}</span>
+                      </span>
+                                    <span class="toastui-chart-series-value">${value[2]}</span>
+                                  </div>
+                        </div>
+                          
+                          
+                          </div>`;
+                },
+              },
+              theme: {
+                tooltip: {
+                  yAxis: {
+                    fontSize: 6,
+                  },
+                  header: {
+                    fontSize: 8,
+                    fontFamily: "SDKukdetopokki-Lt",
+                  },
+                  body: {
+                    fontSize: 6,
+                    fontFamily: "SDKukdetopokki-Lt",
+                  },
+                },
+              },
+            },
+          },
+        ],
       },
     };
 
@@ -166,7 +250,10 @@ export default function BarData({
         >
           <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z" />
         </svg>
-        <div className={segp}>현재 참가자 수 : <span className="font-['SDKukdetopokki']">{size}</span>명 </div>
+        <div className={segp}>
+          현재 참가자 수 :{" "}
+          <span className="font-['SDKukdetopokki']">{size}</span>명{" "}
+        </div>
       </div>
       <div className={segInside}>
         <div
@@ -184,7 +271,7 @@ export default function BarData({
           </svg>
           Top 8 Bar Graph
         </div>
-        <div id="chart" className="w-full h-[500px]"></div>
+        <div id="chart" style={{ width: "100%", height: "500px" }}></div>
       </div>
     </>
   );

@@ -29,11 +29,12 @@ export default function GridData() {
           showHorizontalBorder: true,
         },
         header: {
-          background: "#fff",
-          border: "#fff",
+          background: "#F7F6F3",
+          border: "#F7F6F3",
+          className: "font-['SDKukdetopokki']",
         },
         selectedHeader: {
-          background: "#e0e0e0",
+          background: "#E9F2FA",
         },
       },
     });
@@ -43,7 +44,11 @@ export default function GridData() {
       data: dataSource,
       scrollX: true,
       scrollY: true,
-      rowHeight: "60px",
+      rowHeight: 50,
+      bodyHeight: 515,
+      header: {
+        height:50,
+      },
       columns: [
         {
           header: "#",
@@ -55,53 +60,139 @@ export default function GridData() {
               fontWeight: "bold",
               color: (props) =>
                 Number(props.value) == 1
-                  ? "#F0B45E"
+                  ? "rgb(98,43,155)"
                   : Number(props.value) == 2
-                  ? "#435F7A"
-                  : Number(props.value) == 3
-                  ? "#AD5601"
+                  ? "#F0B45E"
+                  : Number(props.value) < 5
+                  ? "rgb(101,106,146)"
                   : Number(props.value) < 9
                   ? "#AD5601"
                   : "#000",
             },
-            classNames: ["my-styled-cell"],
           },
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "entryName",
           header: "닉네임",
           minWidth : 200,
           align: "center",
+          renderer: {
+            styles: {
+              fontWeight: "bold",
+              color: (props) =>
+                Number(props.rowKey) + 1 == 1
+                  ? "rgb(98,43,155)"
+                  : Number(props.rowKey) + 1 == 2
+                  ? "#F0B45E"
+                  : Number(props.rowKey) + 1 < 5
+                  ? "rgb(101,106,146)"
+                  : Number(props.rowKey) + 1 < 9
+                  ? "#AD5601"
+                  : "#000",
+            },
+          },
+          className: "font-['SDKukdetopokki-Lt']"
         },
         {
           name: "takioImg",
           header: "사진",
           width: 50,
           align: "center",
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "songTotal",
           header: "Total",
           minWidth: 100,
           align: "center",
+          renderer: {
+            styles: {
+              color: (props) =>
+                Number(props.value) >= 3008460
+                  ? "rgb(98,43,155)"
+                  : Number(props.value) >= 3008460 * (0.99)
+                  ? "rgb(207,93,105)"
+                  : Number(props.value) >= 3008460 * (0.97)
+                  ? "#F0B45E"
+                  : Number(props.value) >= 3008460 * (0.95)
+                  ? "rgb(101,106,146)"
+                  : Number(props.value) >= 3008460 * (0.90)
+                  ? "#AD5601"
+                  : "#000",
+            },
+          },
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "songScore1",
           header: "Xevel",
           minWidth: 100,
           align: "center",
+          renderer: {
+            styles: {
+              color: (props) =>
+                Number(props.value) >= 1000920
+                  ? "rgb(98,43,155)"
+                  : Number(props.value) >= 1000920 * (0.99)
+                  ? "rgb(207,93,105)"
+                  : Number(props.value) >= 1000920 * (0.97)
+                  ? "#F0B45E"
+                  : Number(props.value) >= 1000920 * (0.95)
+                  ? "rgb(101,106,146)"
+                  : Number(props.value) >= 1000920 * (0.90)
+                  ? "#AD5601"
+                  : "#000",
+            },
+          },
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "songScore2",
           header: "Hurtling Boys",
           minWidth: 100,
           align: "center",
+          renderer: {
+            styles: {
+              color: (props) =>
+                Number(props.value) >= 1006330
+                  ? "rgb(98,43,155)"
+                  : Number(props.value) >= 1006330 * (0.99)
+                  ? "rgb(207,93,105)"
+                  : Number(props.value) >= 1006330 * (0.97)
+                  ? "#F0B45E"
+                  : Number(props.value) >= 1006330 * (0.95)
+                  ? "rgb(101,106,146)"
+                  : Number(props.value) >= 1006330 * (0.90)
+                  ? "#AD5601"
+                  : "#000",
+            },
+          },
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "songScore3",
           header: "ANiMA",
           minWidth: 100,
           align: "center",
+          renderer: {
+            styles: {
+              fontWeight: "bold",
+              color: (props) =>
+                Number(props.value) >= 1001210
+                  ? "rgb(98,43,155)"
+                  : Number(props.value) >= 1001210 * (0.99)
+                  ? "rgb(207,93,105)"
+                  : Number(props.value) >= 1001210 * (0.97)
+                  ? "#F0B45E"
+                  : Number(props.value) >= 1001210 * (0.95)
+                  ? "rgb(101,106,146)"
+                  : Number(props.value) >= 1001210 * (0.90)
+                  ? "#AD5601"
+                  : "#000",
+            },
+          },
+          className: "font-['SDKukdetopokki']"
         },
       ],
       contextMenu: null,
