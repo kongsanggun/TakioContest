@@ -7,6 +7,8 @@ import Grid from "tui-grid";
 import "tui-grid/dist/tui-grid.css";
 
 export default function GridDatas() {
+  const inputButton2= "text-sm sm:text-base text-[#245A8D] hover:text-[#3E484A] hover:border-[#3E484A] font-['SDKukdetopokki-Lt'] py-1 w-[100px] h-auto bg-[#F9F9FB] hover:bg-[#E5FBFD] rounded-3xl border-[2px] border-[#245A8D] duration-300";
+
   var grid;
 
   async function initGrid() {
@@ -58,7 +60,7 @@ export default function GridDatas() {
         },
         {
           name: "stateIcon",
-          header: " ",
+          header: "상태",
           align: "center",
           width: 20,
         },
@@ -211,21 +213,21 @@ export default function GridDatas() {
 
   return (
     <div className="mt-10 mb-8">
-      <div className="mb-3 flex justify-end">
+      <div className="flex justify-end mb-3">
         <button
-          className="text-base p-2 mr-2 w-[75px] h-auto bg-slate-500 rounded-md"
+          className={inputButton2 + " mr-2"}
           onClick={addRow}
         >
           추가
         </button>
         <button
-          className="text-base p-2 mr-2 w-[75px] h-auto bg-slate-500 rounded-md"
+          className={inputButton2 + " mr-2"}
           onClick={deleteRow}
         >
           삭제
         </button>
         <button
-          className="text-base p-2 w-[75px] h-auto bg-slate-500 rounded-md"
+          className={inputButton2 + " mr-2"}
           onClick={Save}
         >
           저장

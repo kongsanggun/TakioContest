@@ -14,20 +14,33 @@ export class EntryService {
 
   async createEntrant(dto: CreateEntrantDto) {
     const taikoId = dto.taikoId;
-    const entrant = await this.check(taikoId);
+    const entryName = dto.entryName;
+    const entrantId = await this.checkId(taikoId);
+    const entrantName = await this.checkName(entryName);
 
-    if (entrant.length > 0) {
-      throw new ServiceUnavailableException('태고 아이디가 중복되었습니다.');
+    if (entrantName.length > 0) {
+      throw new ServiceUnavailableException('참가자 이름이 중복되었습니다.');
+    }
+
+    if (entrantId.length > 0) {
+      throw new ServiceUnavailableException('북번호가 중복되었습니다.');
     }
 
     await this.create(dto);
     return 'Done';
   }
 
-  private async check(taikoId: string) {
+  private async checkId(taikoId: string) {
     return await this.entrantRepository
       .createQueryBuilder('score')
       .where('score.taikoId = :taikoId', { taikoId: taikoId })
+      .getMany();
+  }
+
+  private async checkName(entryName: string) {
+    return await this.entrantRepository
+      .createQueryBuilder('score')
+      .where('score.entryName = :entryName', { entryName: entryName })
       .getMany();
   }
 

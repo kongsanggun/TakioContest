@@ -1,11 +1,14 @@
 import dynamic from 'next/dynamic';
+
 import AdminHeader from '../../components/adminHeader';
 import Footer from '../../components/footer';
+import Spanner from '../../components/spanner';
 
 import Router from "next/router";
 import React, { useState, useEffect } from "react";
 
 export default function Main() {
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         auth();
@@ -29,6 +32,7 @@ export default function Main() {
         else if (!response.ok) {
             Router.push("/error")
         }
+        setLoading(!loading);
     }
 
     const GridData = dynamic(
@@ -38,7 +42,9 @@ export default function Main() {
 
 
     return (
-        <div className='bg-[#F9F9FB]'>
+        <>
+            {<Spanner loading={loading}/>}
+            <div className='bg-[#F9F9FB]'>
             <AdminHeader />
             <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
                 <div className="w-[80vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
@@ -50,5 +56,7 @@ export default function Main() {
             </div>
             <Footer />
         </div>
+        </>
+
     )
 }

@@ -20,7 +20,7 @@ export class Entrant {
   @Column({
     name: 'contacts',
     type: 'varchar',
-    nullable: false,
+    nullable: true,
     length: 50,
   })
   contacts: string; // 이메일 연락처

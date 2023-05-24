@@ -8,8 +8,8 @@ import { ExceptionHandler } from '../common/ExceptionHandler';
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 
-  //@Cron('0 00 06 * * *')
-  @Get('/test')
+  @Cron('0 00 06 * * *')
+  //@Get('/test')
   getRanking() {
     return this.crawlerService.crawler();
   } // 히로바에서 점수 데이터 가져와서 갱신하기

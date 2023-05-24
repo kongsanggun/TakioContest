@@ -73,13 +73,12 @@ export default function Login() {
 
             let resJSON = await response.json();
 
-            alert('로그인 성공!');
             localStorage.setItem('token', resJSON.token);
             Router.push("/admin/user");
 
         } catch (Error) {
             if (Error) {
-                // TODO : 팝업 생성;
+                setAlertMessage('로그인에 실패하였습니다.');
                 setOpenAlert(!openAlert);
             }
             else {

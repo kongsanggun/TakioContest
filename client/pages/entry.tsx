@@ -14,6 +14,7 @@ export default function Entry() {
     const [openAlert, setOpenAlert] = useState(false);
     const [openComfirm, setOpenComfirm] = useState(false);
     const [openSnom, setOpenSnom] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [openHowto, setOpenHowto] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [inputs, setInputs] = useState({
@@ -82,6 +83,8 @@ export default function Entry() {
     };
 
     const vaild = () => {
+        let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); // 이메일 인증
+        
         if (inputs.entryType === null || inputs.entryType === "") {
             setAlertMessage("모드를 선택해주세요.");
             return false;
@@ -107,14 +110,19 @@ export default function Entry() {
             return false;
         }
 
+        if (!regex.test(inputs.contacts) && inputs.contacts !== null && inputs.contacts !== "") {
+            setAlertMessage("이메일 형식에 맞지 않습니다.");
+            return false;
+        }
+
         return true;
     } // 유효성 검사
 
     const snomVaild = () => {
-        const snom = inputs.entryName.includes('누니머기');
-        const ass = inputs.entryName.includes('엉덩이') || inputs.entryName.includes('궁뎅이') || inputs.entryName.includes('빵뎅이') || inputs.entryName.includes('오시리') || inputs.entryName.includes('둔부');
-        const not = inputs.entryName.includes('아니') || inputs.entryName.includes('아님') || inputs.entryName.includes('다르')
-        const NG = inputs.entryName.includes('누엉') || inputs.entryName.includes('오시리스시')
+        const snom = inputs.entryName.includes('누니머기') || inputs.entryName.includes('snom') || inputs.entryName.includes('Snom') || inputs.entryName.includes('ユキハミ');
+        const ass = inputs.entryName.includes('엉덩이') || inputs.entryName.includes('응딩이') || inputs.entryName.includes('궁뎅이') || inputs.entryName.includes('빵뎅이') || inputs.entryName.includes('오시리') || inputs.entryName.includes('둔부') || inputs.entryName.includes('볼기짝') || inputs.entryName.includes('ㅇㄷㅇ') || inputs.entryName.includes('ass') || inputs.entryName.includes('Ass') || inputs.entryName.includes('ASS') || inputs.entryName.includes('おしり')　|| inputs.entryName.includes('お尻'); 
+        const not = inputs.entryName.includes('아니') || inputs.entryName.includes('아님') || inputs.entryName.includes('다르') || inputs.entryName.includes('not') || inputs.entryName.includes('Not')
+        const NG = inputs.entryName.includes('누엉') || inputs.entryName.includes('오시리스시') || inputs.entryName.includes('어쌔신크리드') || inputs.entryName.includes('%디') || inputs.entryName.includes('오시리카지리무시')
 
         if (snom && ass && !not) {
             return false;
@@ -127,6 +135,7 @@ export default function Entry() {
 
     const PostEntry = async () => {
         try {
+            setLoading(true);
             const today = new Date();
             const expiredDay = new Date();
 
@@ -153,14 +162,17 @@ export default function Entry() {
                 throw new Error(message);
             }
 
-            //alert('참가 완료되었습니다.');
+            setLoading(false);
+            alert('참가 완료되었습니다.');
             Router.push("/");
 
         } catch (Error) {
             if (Error) {
+                setLoading(false);
                 setOpenAlert(!openAlert);
             }
             else {
+                setLoading(false);
                 setAlertMessage('참가자 등록에 실패하였습니다.');
                 setOpenAlert(!openAlert);
             }
@@ -217,6 +229,7 @@ export default function Entry() {
 
     return (
         <>
+            {<Spanner loading={loading}/>}
             {openHowto && <ModelHowTo onOpenAlert={onHowtoAlert} />}
             {openAlert && <ModalAlert onOpenAlert={onModalAlert} data={alertMessage} />}
             {openComfirm && <ModalComfirm onOpenAlert={onModalComfirm} onConfirm={() => { setOpenComfirm(!openComfirm); PostEntry(); }} data={alertMessage} />}
@@ -232,11 +245,11 @@ export default function Entry() {
                                 <div className={segInsideTitle}>참가 모드를 선택해주세요.</div>
                                 <Radio />
                                 <div className={segInsideTitle}>참가자 이름을 알려주세요.</div>
-                                <input className={inputDiv} type="text" id="entryName" name="entryName" value={inputs.entryName} placeholder='최대 10글자까지 입력가능' onChange={onChange} autoFocus />
+                                <input className={inputDiv} type="text" id="entryName" name="entryName" value={inputs.entryName} placeholder='최대 10글자까지 입력가능 (필수 항목, 중복 불가)' onChange={onChange} autoFocus />
                                 <div className={segInsideTitle}>참가자의 북번호를 알려주세요. <span className={seglink + " ml-2 " + segInsideP} onClick={onHowtoAlert}>방법</span></div>
-                                <input className={inputDiv} type="text" id="taikoId" name="taikoId" value={inputs.taikoId} placeholder='숫자로 12글자 입력' onChange={onChange} />
+                                <input className={inputDiv} type="text" id="taikoId" name="taikoId" value={inputs.taikoId} placeholder='숫자로 12글자 입력 (필수 항목, 중복 불가)' onChange={onChange} />
                                 <div className={segInsideTitle}>참가자의 이메일 연락처를 알려주세요.</div>
-                                <input className={inputDiv} type="text" id="contacts" name="contacts" value={inputs.contacts} placeholder='이메일 형식으로 입력' onChange={onChange} />
+                                <input className={inputDiv} type="text" id="contacts" name="contacts" value={inputs.contacts} placeholder='이메일 형식으로 입력 (example@test.com)' onChange={onChange} />
                                 <div className='flex flex-col items-center w-full h-auto mt-6'>
                                     <button className={inputButton} type="submit" onClick={Submit}>참가하기</button>
                                 </div>

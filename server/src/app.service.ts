@@ -1,8 +1,6 @@
 import { Injectable, ServiceUnavailableException } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import puppeteer, { executablePath } from 'puppeteer-core';
 import { Repository } from 'typeorm';
 import { ConInfo } from './conInfo/entities/conInfo.entity';
 import { Entrant } from './entrant/entities/entrant.entity';

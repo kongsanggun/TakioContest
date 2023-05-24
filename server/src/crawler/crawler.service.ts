@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import puppeteer, { executablePath } from 'puppeteer-core';
 import { Compe } from 'src/compe/entities/compe.entity';
+import { ConInfo } from 'src/conInfo/entities/conInfo.entity';
 import { UpdateEntrantDto } from 'src/entrant/admin/dto/updateEntrant.dto';
 import { Entrant } from 'src/entrant/entities/entrant.entity';
 import { Repository } from 'typeorm';
@@ -22,9 +23,18 @@ export class CrawlerService {
     private readonly compeRepository: Repository<Compe>,
     @InjectRepository(Entrant)
     private readonly entrantRepository: Repository<Entrant>,
+    @InjectRepository(ConInfo)
+    private readonly coninfoRepository: Repository<ConInfo>,
   ) {}
   async crawler(): Promise<any> {
     let count = 3;
+    const contestId = process.env.CONTEST_ID;
+
+    this.logger.debug('0. 대회날짜 확인');
+    const coninfo = this.getConInfo(contestId);
+    if ((await coninfo).length == 0) {
+      throw new ServiceUnavailableException('해당 대회 날짜가 아닙니다.');
+    }
 
     this.logger.debug(
       '1. compe 정보 가져오기 (기준을 어제, 범위 시작 <= 어제 <= 종료',
@@ -52,6 +62,24 @@ export class CrawlerService {
     this.logger.debug('4. 만료된 entry 삭제');
     await this.deleteEntrant();
     return 'Done!';
+  }
+
+  private async getConInfo(contestId: string) {
+    try {
+      return await this.coninfoRepository
+        .createQueryBuilder('coninfo')
+        .where('coninfo.Id = :contestId', {
+          contestId: contestId,
+        })
+        .andWhere(':now between coninfo.startAt and coninfo.endAt', {
+          now: new Date().toISOString().split('T')[0],
+        })
+        .getMany();
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        '랭킹을 불러오는 도중 오류가 발생했습니다.',
+      );
+    }
   }
 
   private async getCompe() {
