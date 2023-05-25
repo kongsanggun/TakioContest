@@ -6,7 +6,7 @@ import { ExceptionHandler } from 'src/common/exceptionHandler';
 import { RankingService } from './ranking-entrant.service';
 
 @UseFilters(ExceptionHandler)
-@Controller('ranking')
+@Controller('api/ranking')
 export class RankingController {
   constructor(private readonly rankingService: RankingService) {}
 

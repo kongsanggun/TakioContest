@@ -6,7 +6,7 @@ import { CreateEntrantDto } from './dto/createEntrant.dto';
 import { EntryService } from './entry-entrant.service';
 
 @UseFilters(ExceptionHandler)
-@Controller('entry')
+@Controller('api/entry')
 export class EntryController {
   constructor(private readonly entryService: EntryService) {}
 

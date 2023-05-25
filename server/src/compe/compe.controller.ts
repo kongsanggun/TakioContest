@@ -13,7 +13,7 @@ import { CompeService } from './compe.service';
 import { AuthGuard } from 'src/common/authGuard.controller';
 
 @UseFilters(ExceptionHandler)
-@Controller('admin/raking')
+@Controller('api/admin/raking')
 export class CompeController {
   constructor(private readonly compeService: CompeService) {}
 

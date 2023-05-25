@@ -14,7 +14,7 @@ import { AdminService } from './admin-entrant.service';
 import { AuthGuard } from 'src/common/authGuard.controller';
 
 @UseFilters(ExceptionHandler)
-@Controller('admin')
+@Controller('api/admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 

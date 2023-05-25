@@ -4,7 +4,7 @@ import { CrawlerService } from './crawler.service';
 import { ExceptionHandler } from '../common/exceptionHandler';
 
 @UseFilters(ExceptionHandler)
-@Controller('crawler')
+@Controller('api/crawler')
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 

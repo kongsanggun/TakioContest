@@ -13,7 +13,7 @@ import { ConInfoService } from './conInfo.service';
 import { AuthGuard } from 'src/common/authGuard.controller';
 
 @UseFilters(ExceptionHandler)
-@Controller('admin/contest')
+@Controller('api/admin/contest')
 export class ConInfoController {
   constructor(private readonly conInfoService: ConInfoService) {}
 
