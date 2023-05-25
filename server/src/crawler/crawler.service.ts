@@ -3,17 +3,14 @@ import {
   ServiceUnavailableException,
   Logger,
 } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import puppeteer, { executablePath } from 'puppeteer-core';
+import puppeteer, { executablePath } from 'puppeteer';
 import { Compe } from 'src/compe/entities/compe.entity';
 import { ConInfo } from 'src/conInfo/entities/conInfo.entity';
 import { UpdateEntrantDto } from 'src/entrant/admin/dto/updateEntrant.dto';
 import { Entrant } from 'src/entrant/entities/entrant.entity';
 import { Repository } from 'typeorm';
-
-// TODO : 추후 환경 변수 적용 및 최적화 예정
 
 @Injectable()
 export class CrawlerService {
@@ -30,11 +27,11 @@ export class CrawlerService {
     let count = 3;
     const contestId = process.env.CONTEST_ID;
 
-    this.logger.debug('0. 대회날짜 확인');
+    /*this.logger.debug('0. 대회날짜 확인');
     const coninfo = this.getConInfo(contestId);
     if ((await coninfo).length == 0) {
       throw new ServiceUnavailableException('해당 대회 날짜가 아닙니다.');
-    }
+    }*/
 
     this.logger.debug(
       '1. compe 정보 가져오기 (기준을 어제, 범위 시작 <= 어제 <= 종료',
@@ -177,7 +174,7 @@ export class CrawlerService {
     const result = [];
     const browser = await puppeteer.launch({
       args: ['--no-sandbox'],
-      headless: true,
+      headless: 'new',
       executablePath: executablePath('chrome'),
     });
     const page = await browser.newPage();

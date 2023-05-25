@@ -10,6 +10,11 @@ export default function Admin() {
     const [openAlert, setOpenAlert] = useState(false);
     const [loading, setLoading] = useState(true);
 
+        // 주로 자주 사용하는 CSS 정리
+        const mainDiv = "w-full h-auto flex flex-col items-center"
+        const segDiv = "w-[80vw] sm:w-[70vw] h-auto py-10 text-[#121316] text-sm sm:text-base flex flex-col font-['SDKukdetopokki-Lt'] border-0"
+        const segTitle = "w-full h-auto text-2xl sm:text-4xl mb-6 font-['SDKukdetopokki']"
+
     useEffect(() => {
         auth();
     }, []);
@@ -42,14 +47,12 @@ export default function Admin() {
 
     return (
         <>
-            {<Spanner loading={loading} />}
+            {/*<Spanner loading={loading} />*/}
             <div className={"w-full h-auto bg-[#F9F9FB]" + (openAlert? " blur-sm" : "")}>
                 <AdminHeader />
-                <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
-                    <div className="w-[80vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
-                        <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
-                            <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">유저관리</div>
-                        </div>
+                <div className={mainDiv}>
+                    <div className={segDiv}>
+                        <div className={segTitle}>유저관리</div>
                         <GridData />
                     </div>
                 </div>

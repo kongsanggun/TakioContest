@@ -4,7 +4,7 @@ import Router from "next/router";
 const Header = () => {
 
     const Admin = () => {
-        Router.push("/admin"); // TODO : 관리자 페이지로 이동
+        Router.push("/admin/user");
         return null;
     }
 

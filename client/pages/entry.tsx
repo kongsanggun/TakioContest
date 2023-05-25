@@ -122,7 +122,7 @@ export default function Entry() {
         const snom = inputs.entryName.includes('누니머기') || inputs.entryName.includes('snom') || inputs.entryName.includes('Snom') || inputs.entryName.includes('ユキハミ');
         const ass = inputs.entryName.includes('엉덩이') || inputs.entryName.includes('응딩이') || inputs.entryName.includes('궁뎅이') || inputs.entryName.includes('빵뎅이') || inputs.entryName.includes('오시리') || inputs.entryName.includes('둔부') || inputs.entryName.includes('볼기짝') || inputs.entryName.includes('ㅇㄷㅇ') || inputs.entryName.includes('ass') || inputs.entryName.includes('Ass') || inputs.entryName.includes('ASS') || inputs.entryName.includes('おしり')　|| inputs.entryName.includes('お尻'); 
         const not = inputs.entryName.includes('아니') || inputs.entryName.includes('아님') || inputs.entryName.includes('다르') || inputs.entryName.includes('not') || inputs.entryName.includes('Not')
-        const NG = inputs.entryName.includes('누엉') || inputs.entryName.includes('오시리스시') || inputs.entryName.includes('어쌔신크리드') || inputs.entryName.includes('%디') || inputs.entryName.includes('오시리카지리무시')
+        const NG = inputs.entryName.includes('누엉') || inputs.entryName.includes('오시리스시') || inputs.entryName.includes('어쌔신크리드') || inputs.entryName.includes('%디') || inputs.entryName.includes('오시리카지리무시') || inputs.entryName.includes('엉덩머기')
 
         if (snom && ass && !not) {
             return false;

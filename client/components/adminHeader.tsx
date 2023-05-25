@@ -17,7 +17,7 @@ const AdminHeader = () => {
                 <div className='w-[10vw] h-full'> </div>
                 <div className='w-[80vw] text-base sm:text-2xl h-full text-[#121316] flex items-center justify-center font-["SDKukdetopokki-Lt"] duration-200'>
                     <Link className={linkClass} href="/admin/user">유저관리</Link>
-                    <Link className={linkClass} href="/admin/ranking">랭킹관리</Link>
+                    <Link className={linkClass} href="/admin/ranking">랭킹수집관리</Link>
                 </div>
                 <div className='w-[10vw] h-full text-[#121316] flex items-center justify-center' onClick={Admin}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-[40px] h-[40px] hover:fill-[#BEC0D7] duration-150">

@@ -10,9 +10,14 @@ import React, { useState, useEffect } from "react";
 export default function Main() {
     const [loading, setLoading] = useState(true);
 
+    // 주로 자주 사용하는 CSS 정리
+    const mainDiv = "w-full h-auto flex flex-col items-center"
+    const segDiv = "w-[80vw] sm:w-[70vw] h-auto py-10 text-[#121316] text-sm sm:text-base flex flex-col font-['SDKukdetopokki-Lt'] border-0"
+    const segTitle = "w-full h-auto text-2xl sm:text-4xl mb-6 font-['SDKukdetopokki']"
+
     useEffect(() => {
         auth();
-    },[]);
+    }, []);
 
     async function auth() {
         let response = await fetch(`/auth`, {
@@ -43,19 +48,17 @@ export default function Main() {
 
     return (
         <>
-            {<Spanner loading={loading}/>}
+            {/*<Spanner loading={loading}/>*/}
             <div className='bg-[#F9F9FB]'>
-            <AdminHeader />
-            <div className="w-full h-auto text-[#121316] font-['SDKukdetopokki-Lt'] py-6 sm:py-8 border-b-[1.5px] border-b-[#BEC0D7] flex flex-col items-center">
-                <div className="w-[80vw] my-8 text-[#121316] text-4xl flex flex-col font-['SDKukdetopokki-Lt']">
-                    <div className='text-base border-b-[1.5px] border-b-[#dfe0ea] pb-5 mb-2 w-[full]'>
-                        <div className="text-4xl mb-6 font-['SDKukdetopokki'] w-[auto]">랭킹 수집 관리</div>
+                <AdminHeader />
+                <div className={mainDiv}>
+                    <div className={segDiv}>
+                        <div className={segTitle}>랭킹수집관리</div>
+                        <GridData />
                     </div>
-                    <GridData />
                 </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
         </>
 
     )

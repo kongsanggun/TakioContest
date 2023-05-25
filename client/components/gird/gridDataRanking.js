@@ -1,13 +1,34 @@
-import "tui-date-picker/dist/tui-date-picker.css";
-
 import Router from "next/router";
 import React, { useEffect } from "react";
 
 import Grid from "tui-grid";
 import "tui-grid/dist/tui-grid.css";
+import "tui-date-picker/dist/tui-date-picker.css";
+import "tui-time-picker/dist/tui-time-picker.css";
 
 export default function GridDatas() {
-  const inputButton2= "text-sm sm:text-base text-[#245A8D] hover:text-[#3E484A] hover:border-[#3E484A] font-['SDKukdetopokki-Lt'] py-1 w-[100px] h-auto bg-[#F9F9FB] hover:bg-[#E5FBFD] rounded-3xl border-[2px] border-[#245A8D] duration-300";
+  // 주로 자주 사용하는 CSS 정리
+  const mainDiv = "w-full h-auto flex flex-col items-center";
+  const segDiv =
+    "w-[80vw] sm:w-[70vw] h-auto py-10 text-[#121316] text-sm sm:text-base flex flex-col font-['SDKukdetopokki-Lt']";
+  const segTitle =
+    "w-full h-auto text-2xl sm:text-4xl mb-6 font-['SDKukdetopokki']";
+  const segSubTitle =
+    "w-full h-auto text-xl sm:text-2xl mb-6 font-['SDKukdetopokki']";
+  const segp = "w-full h-auto";
+  const seglink =
+    "w-[15%] min-w-[100px] h-auto text-[#E69E4E] hover:text-[#B2712A] font-['SDKukdetopokki']";
+
+  const segInside =
+    "w-full h-[700px] py-6 px-6 mb-8 bg-[#E9F2FA] border-[2px] border-[#BED5ED] rounded-xl drop-shadow-md";
+  const segInsideTitle =
+    "w-full h-auto text-xl mb-4 text-[#245A8D] font-['SDKukdetopokki']";
+  const segInsideP = "w-full h-auto text-sm";
+
+  const inputDiv =
+    "w-full h-auto p-2 mb-6 text-sm text-base border-2 focus:border-[#BED5ED] rounded-lg";
+  const inputButton =
+    "text-sm sm:text-base text-[#245A8D] hover:text-[#3E484A] hover:border-[#3E484A] font-['SDKukdetopokki-Lt'] py-1 w-[80px] h-auto bg-[#F9F9FB] hover:bg-[#E5FBFD] rounded-3xl border-[2px] border-[#245A8D] duration-300";
 
   var grid;
 
@@ -45,35 +66,41 @@ export default function GridDatas() {
     grid = new Grid({
       el: document.getElementById("grid"),
       data: dataSource,
-      bodyHeight: "fitToParent",
-      scrollX: false,
-      scrollY: false,
-      rowHeight: "auto",
+      scrollX: true,
+      scrollY: true,
+      rowHeight: 50,
+      bodyHeight: 515,
+      header: {
+        height: 50,
+      },
       rowHeaders: ["rowNum", "checkbox"],
       columns: [
         {
           name: "state",
           header: "상태",
           align: "center",
-          width: 20,
           hidden: true,
         },
         {
           name: "stateIcon",
-          header: "상태",
+          header: " ",
           align: "center",
-          width: 20,
+          width: 28,
+          minWidth: 28,
         },
         {
           name: "compeId",
           header: "대회 번호",
+          width: 120,
           align: "center",
           editor: "text",
           validation: { required: true },
+          filter: 'select'
         },
         {
           name: "entryType",
           header: "참가 모드",
+          width: 100,
           align: "center",
           formatter: "listItemText",
           editor: {
@@ -87,34 +114,53 @@ export default function GridDatas() {
             },
           },
           validation: { required: true },
+          filter: 'select'
         },
         {
           name: "hostTaikoId",
           header: "주최자 북 번호",
           align: "center",
+          width: 120,
           editor: "text",
           validation: { required: true },
+          filter: 'select'
         },
         {
           name: "hostName",
           header: "주최자 이름",
+          minWidth: 200,
           align: "center",
           editor: "text",
           validation: { required: true },
+          filter: 'select'
         },
         {
           name: "startAt",
           header: "시작 시간",
+          width: 120,
           align: "center",
           editor: "datePicker",
           validation: { required: true },
+          filter: {
+            type: 'date',
+            options: {
+              format: 'yyyy.MM.dd'
+            }
+          }
         },
         {
           name: "endAt",
           header: "종료 시간",
+          width: 120,
           align: "center",
           editor: "datePicker",
           validation: { required: true },
+          filter: {
+            type: 'date',
+            options: {
+              format: 'yyyy.MM.dd'
+            }
+          }
         },
       ],
       columnOptions: {
@@ -212,28 +258,19 @@ export default function GridDatas() {
   }, []);
 
   return (
-    <div className="mt-10 mb-8">
-      <div className="flex justify-end mb-3">
-        <button
-          className={inputButton2 + " mr-2"}
-          onClick={addRow}
-        >
+    <div className="mb-6">
+      <div className="flex justify-end mb-4">
+        <button className={inputButton + " mr-2"} onClick={addRow}>
           추가
         </button>
-        <button
-          className={inputButton2 + " mr-2"}
-          onClick={deleteRow}
-        >
+        <button className={inputButton + " mr-2"} onClick={deleteRow}>
           삭제
         </button>
-        <button
-          className={inputButton2 + " mr-2"}
-          onClick={Save}
-        >
+        <button className={inputButton + " mr-2"} onClick={Save}>
           저장
         </button>
       </div>
-      <div id="grid" className="text-xs w-full h-[50vh]"></div>
+      <div id="grid" className="w-full h-auto text-['SDKukdetopokki-Lt']"></div>
     </div>
   );
 }

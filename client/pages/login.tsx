@@ -48,6 +48,12 @@ export default function Login() {
         });
     };
 
+    const handleOnKeyPress = (e: any) => {
+        if (e.key === 'Enter') {
+            login(e); // Enter 입력이 되면 클릭 이벤트 실행
+        }
+    }
+
     async function login(e: any) {
         try {
             const cpInputs = {
@@ -89,6 +95,7 @@ export default function Login() {
             return;
         }
     }
+    
 
     return (
         <>
@@ -102,9 +109,9 @@ export default function Login() {
                         <div className='flex flex-col items-center'>
                             <div className={segInside + " mt-10 max-w-[720px] flex flex-col items-center justify-center"}>
                                 <div className={segInsideTitle}>ID</div>
-                                <input className={inputDiv} type="text" id="username" name="username" placeholder='ID를 입력하세요.' onChange={onChange} />
+                                <input className={inputDiv} type="text" id="username" name="username" placeholder='ID를 입력하세요.' onChange={onChange} onKeyDown={handleOnKeyPress}/>
                                 <div className={segInsideTitle}>Password</div>
-                                <input className={inputDiv} type="password" id="password" name="password" placeholder='비밀번호를 입력하세요.' onChange={onChange} />
+                                <input className={inputDiv} type="password" id="password" name="password" placeholder='비밀번호를 입력하세요.' onChange={onChange} onKeyDown={handleOnKeyPress}/>
                                 <div className='flex flex-col items-center w-full h-auto mt-6'>
                                     <button className={inputButton} type="submit" onClick={login} >로그인</button>
                                 </div>
