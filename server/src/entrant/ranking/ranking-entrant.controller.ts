@@ -1,7 +1,7 @@
 import { Controller, Get, UseFilters } from '@nestjs/common';
 
 import { entryType } from 'src/common/enums/entryType';
-import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { ExceptionHandler } from 'src/common/exceptionHandler';
 
 import { RankingService } from './ranking-entrant.service';
 

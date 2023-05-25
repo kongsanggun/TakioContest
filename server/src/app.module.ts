@@ -6,7 +6,7 @@ import authConfig from './config/authConfig';
 
 import { APP_FILTER } from '@nestjs/core';
 import { validate } from './config/env.validation';
-import { ExceptionHandler } from './common/ExceptionHandler';
+import { ExceptionHandler } from './common/exceptionHandler';
 
 import { CompeModule } from './compe/compe.module';
 import { ConInfoModule } from './conInfo/conInfo.module';

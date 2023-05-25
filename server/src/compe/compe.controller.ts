@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { ExceptionHandler } from 'src/common/exceptionHandler';
 import { CompeService } from './compe.service';
 
 import { AuthGuard } from 'src/common/authGuard.controller';

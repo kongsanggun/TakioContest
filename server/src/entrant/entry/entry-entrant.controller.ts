@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseFilters } from '@nestjs/common';
 
-import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { ExceptionHandler } from 'src/common/exceptionHandler';
 
 import { CreateEntrantDto } from './dto/createEntrant.dto';
 import { EntryService } from './entry-entrant.service';

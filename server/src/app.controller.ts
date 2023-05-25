@@ -1,6 +1,6 @@
 import { Controller, Get, UseFilters } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ExceptionHandler } from './common/ExceptionHandler';
+import { ExceptionHandler } from './common/exceptionHandler';
 
 @UseFilters(ExceptionHandler)
 @Controller('index')

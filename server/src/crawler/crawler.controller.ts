@@ -1,7 +1,7 @@
 import { Cron } from '@nestjs/schedule';
 import { Controller, Get, UseFilters } from '@nestjs/common';
 import { CrawlerService } from './crawler.service';
-import { ExceptionHandler } from '../common/ExceptionHandler';
+import { ExceptionHandler } from '../common/exceptionHandler';
 
 @UseFilters(ExceptionHandler)
 @Controller('crawler')

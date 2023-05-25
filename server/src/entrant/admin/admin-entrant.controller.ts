@@ -7,10 +7,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { ExceptionHandler } from 'src/common/exceptionHandler';
 
 import { AdminService } from './admin-entrant.service';
-import { UpdateEntrantDto } from './dto/updateEntrant.dto';
 
 import { AuthGuard } from 'src/common/authGuard.controller';
 

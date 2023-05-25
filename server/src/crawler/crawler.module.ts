@@ -3,7 +3,7 @@ import { Logger, Module } from '@nestjs/common';
 import { CrawlerController } from './crawler.controller';
 import { CrawlerService } from './crawler.service';
 import { APP_FILTER } from '@nestjs/core';
-import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { ExceptionHandler } from 'src/common/exceptionHandler';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Compe } from 'src/compe/entities/compe.entity';

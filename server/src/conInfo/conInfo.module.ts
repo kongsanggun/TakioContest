@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 
 import { APP_FILTER } from '@nestjs/core';
-import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { ExceptionHandler } from 'src/common/exceptionHandler';
 
 import { ConInfo } from './entities/conInfo.entity';
 import { ConInfoController } from './conInfo.controller';

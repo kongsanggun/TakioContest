@@ -7,9 +7,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { ExceptionHandler } from 'src/common/ExceptionHandler';
+import { ExceptionHandler } from 'src/common/exceptionHandler';
 import { ConInfoService } from './conInfo.service';
-import { PostConInfoDto } from './dto/postInfo.dto';
 
 import { AuthGuard } from 'src/common/authGuard.controller';
 
