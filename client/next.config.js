@@ -9,23 +9,23 @@ module.exports = {
     return [
       {
 				source: "/index/:path*",
-				destination: "http://localhost:5001/index/:path*",
+				destination: `${process.env.BACK_END}/index/:path*`,
       },
       {
 				source: "/ranking/:path*",
-				destination: "http://localhost:5001/ranking/:path*",
+				destination: `${process.env.BACK_END}/ranking/:path*`,
       },
       {
 				source: "/entry/:path*",
-				destination: "http://localhost:5001/entry/:path*",
+				destination: `${process.env.BACK_END}/entry/:path*`,
       },
       {
 				source: "/admin/:path*",
-				destination: "http://localhost:5001/admin/:path*",
+				destination: `${process.env.BACK_END}/admin/:path*`,
       },
       {
 				source: "/auth/:path*",
-				destination: "http://localhost:5001/auth/:path*",
+				destination: `${process.env.BACK_END}/auth/:path*`,
       }
     ]
   }
