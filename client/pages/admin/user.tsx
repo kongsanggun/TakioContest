@@ -47,7 +47,7 @@ export default function Admin() {
 
     return (
         <>
-            {/*<Spanner loading={loading} />*/}
+            {<Spanner loading={loading} />}
             <div className={"w-full h-auto bg-[#F9F9FB]" + (openAlert? " blur-sm" : "")}>
                 <AdminHeader />
                 <div className={mainDiv}>

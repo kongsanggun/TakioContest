@@ -80,6 +80,7 @@ export default function GridDatas() {
           header: "상태",
           align: "center",
           hidden: true,
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "stateIcon",
@@ -87,6 +88,7 @@ export default function GridDatas() {
           align: "center",
           width: 28,
           minWidth: 28,
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "compeId",
@@ -95,7 +97,8 @@ export default function GridDatas() {
           align: "center",
           editor: "text",
           validation: { required: true },
-          filter: 'select'
+          filter: 'select',
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "entryType",
@@ -114,7 +117,8 @@ export default function GridDatas() {
             },
           },
           validation: { required: true },
-          filter: 'select'
+          filter: 'select',
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "hostTaikoId",
@@ -123,7 +127,8 @@ export default function GridDatas() {
           width: 120,
           editor: "text",
           validation: { required: true },
-          filter: 'select'
+          filter: 'select',
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "hostName",
@@ -132,7 +137,8 @@ export default function GridDatas() {
           align: "center",
           editor: "text",
           validation: { required: true },
-          filter: 'select'
+          filter: 'select',
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "startAt",
@@ -146,7 +152,8 @@ export default function GridDatas() {
             options: {
               format: 'yyyy.MM.dd'
             }
-          }
+          },
+          className: "font-['SDKukdetopokki']"
         },
         {
           name: "endAt",
@@ -160,7 +167,8 @@ export default function GridDatas() {
             options: {
               format: 'yyyy.MM.dd'
             }
-          }
+          },
+          className: "font-['SDKukdetopokki']"
         },
       ],
       columnOptions: {

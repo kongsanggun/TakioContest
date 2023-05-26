@@ -48,7 +48,7 @@ export default function Main() {
 
     return (
         <>
-            {/*<Spanner loading={loading}/>*/}
+            {<Spanner loading={loading}/>}
             <div className='bg-[#F9F9FB]'>
                 <AdminHeader />
                 <div className={mainDiv}>
