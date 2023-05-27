@@ -198,7 +198,7 @@ export default function Index() {
                         <div className={' mb-6'}><span onClick={function () { onModalMovie("_AoWY5A_xFk?start=28") }} className={seglink}>영상보기 📺</span></div>
 
                         <div className={segInsideTitle}>- ANiMA </div>
-                        <div className={segInsideP + ' mb-1'}><del className='text-gray-400' title="않이;;" >제목이 초고수의 시그니처 않이가 들어가있는</del> Demmo에 수록되어있는 곡입니다.</div>
+                        <div className={segInsideP + ' mb-1'}><del className='text-gray-400' title="않이;;" >제목이 초고수의 시그니처 않이가 들어가있는</del> Deemo에 수록되어있는 곡입니다.</div>
                         <div className={segInsideP + ' mb-4'}>보스곡이었던 상징성도 있고 난이도도 적당하다고 생각하여 위의 곡을 선정했습니다.</div>
                         <div className={' mb-4'}><span onClick={function () { onModalMovie("HcJuuIWMJ8w?start=8") }} className={seglink}>영상보기 📺</span></div>
                     </div>
@@ -224,6 +224,14 @@ export default function Index() {
                 <div className={segp + " mb-1"}> 3. <a className={seglink} href="https://donderhiroba.jp/compe_list.php" target="_blank" rel="noopener noreferrer"><u>대회 검색</u></a>에 들어가서 대회 기록을 위한 대회를 검색합니다. </div>
                 <div className={segp + " mb-1"}>검색은 {"'[Do the G] 오리지널모드' 혹은 '[Do the G] 초고수모드'"}로 입력해주세요.  </div>
                 <div className={segp + " mb-6"}> 4. 동더 히로바 대회에 들어가서 접수 후 실력을 뽐내보세요! 대회 기록은 오전 6시마다 이루어집니다. </div>
+                <div className="flex flex-row items-center justify-start w-full h-auto mb-6 text-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-5 h-5 mr-2">
+                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+                    </svg>
+                    <div className={segp}>
+                        참가 접수 후 반드시 7일 이내에 동더 히로바 대회에 참가하여 점수를 기록해주세요! <span className="text-[#FF0000] font-['SDKukdetopokki']">7일이 지나면 참가 기록이 자동으로 사라지게 됩니다.</span>
+                    </div>
+                </div>
                 <div className={segp}>
                     <Link className={seglink} href="/entry">대회 참여하기 🥁</Link>
                 </div>
@@ -242,6 +250,7 @@ export default function Index() {
                     <div>
                         <div className={segInsideP + ' mb-2'}> - 모드는 하나만 선택할 수 있습니다. 가급적이면 자신의 실력에 맞게 모드를 선택해주세요. </div>
                         <div className={segInsideP + ' mb-2'}> - 정정당당한 실력으로 참가에 임해주세요. 대리 등의 대리 참가는 불가합니다.</div>
+                        <div className={segInsideP + ' mb-2'}> - 반드시 신청 후 7일 이내에 대회에 참가하여 점수를 기록해주세요.</div>
                         <div className={segInsideP + ' mb-2'}> - 해당 대회 같은 경우 동더히로바 사이트 가입이 필수입니다. 참가 전에 자신의 동더히로바 사이트를 확인해주세요. </div>
                         <div className={segInsideP + ' mb-2'}> - 1인당 1계정으로만 참가해주세요. 중복 참가를 금합니다. </div>
                         <div className={segInsideP + ' mb-2'}> - 간혹 여러 이유로 대회 집계가 안될 경우도 있습니다. </div>

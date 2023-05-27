@@ -4,6 +4,7 @@ import Footer from '../components/footer';
 
 import Router from "next/router";
 import React, { useRef, useState } from "react";
+import emojiRegex from 'emoji-regex';
 
 import ModalAlert from "../components/alert/modalAlert";
 import ModalComfirm from '../components/alert/modalComfirm';
@@ -32,8 +33,8 @@ export default function Entry() {
     const segp = "w-full h-auto"
     const seglink = "w-[15%] min-w-[100px] h-auto text-[#E69E4E] hover:text-[#B2712A] font-['SDKukdetopokki']"
 
-    const segInside = "w-full h-[700px] py-6 px-6 mb-8 bg-[#E9F2FA] border-[2px] border-[#BED5ED] rounded-xl drop-shadow-md"
-    const segInsideTitle = "w-full h-auto text-xl mb-4 text-[#245A8D] font-['SDKukdetopokki']"
+    const segInside = "w-full h-[800px] py-6 px-6 mb-8 bg-[#E9F2FA] border-[2px] border-[#BED5ED] rounded-xl drop-shadow-md"
+    const segInsideTitle = "w-full h-auto text-xl mb-2 text-[#245A8D] font-['SDKukdetopokki']"
     const segInsideP = "w-full h-auto text-sm"
 
     const inputDiv = "w-full h-auto p-2 mb-6 text-sm text-base border-2 focus:border-[#BED5ED] rounded-lg"
@@ -84,14 +85,28 @@ export default function Entry() {
 
     const vaild = () => {
         let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); // 이메일 인증
-        
+        let regex2 = new RegExp('[0-9]{12}'); // 북번호
+
+        const NO = inputs.entryName.includes('<') || inputs.entryName.includes('>') || inputs.entryName.includes(':') || inputs.entryName.includes('"') || inputs.entryName.includes("'") || inputs.entryName.includes('/') || inputs.entryName.includes('|') || inputs.entryName.includes('?') || inputs.entryName.includes('!') || inputs.entryName.includes('*') || inputs.entryName.includes('#') || inputs.entryName.includes('@') || inputs.entryName.includes('=')
+        const emoji = emojiRegex();
+
         if (inputs.entryType === null || inputs.entryType === "") {
             setAlertMessage("모드를 선택해주세요.");
             return false;
         }
 
-        if (inputs.entryName === null || inputs.entryName === "") {
+        if (inputs.entryName === null || inputs.entryName.replaceAll(" ", "") === "" || inputs.entryName === "NULL") {
             setAlertMessage("참가자 이름을 입력해주세요.");
+            return false;
+        }
+
+        if (inputs.entryName.replaceAll(" ", "").length !== inputs.entryName.length || NO || inputs.entryName.match(emoji) !== null) {
+            setAlertMessage("참가자 입력 형식에 맞지 않습니다.");
+            return false;
+        }
+
+        if (inputs.entryName.length < 1) {
+            setAlertMessage("이름을 2글자 이상으로 적어주세요.");
             return false;
         }
 
@@ -100,12 +115,12 @@ export default function Entry() {
             return false;
         }
 
-        if (inputs.taikoId === null || inputs.taikoId === "") {
+        if (inputs.taikoId === null || inputs.taikoId.replaceAll(" ", "") === "") {
             setAlertMessage("북번호를 입력해주세요.");
             return false;
         }
 
-        if (inputs.taikoId.length !== 12) {
+        if (!regex2.test(inputs.taikoId)) {
             setAlertMessage("참가자의 북번호는 숫자로 12글자여야합니다.");
             return false;
         }
@@ -242,14 +257,20 @@ export default function Entry() {
                         <div className={"w-full h-auto pb-6 border-b-[1.5px] border-b-[#dfe0ea]"}>Do the G 2023 대회를 접수합니다.</div>
                         <div className='flex flex-col items-center'>
                             <div className={segInside + " mt-10 max-w-[720px] flex flex-col items-center justify-center"}>
-                                <div className={segInsideTitle}>참가 모드를 선택해주세요.</div>
+                                <div className={segInsideTitle}>참가 모드</div>
+                                <div className={segInsideP + ' mb-4'}>참가 모드를 선택해주세요.</div>
                                 <Radio />
-                                <div className={segInsideTitle}>참가자 이름을 알려주세요.</div>
-                                <input className={inputDiv} type="text" id="entryName" name="entryName" value={inputs.entryName} placeholder='최대 10글자까지 입력가능 (필수 항목, 중복 불가)' onChange={onChange} autoFocus />
-                                <div className={segInsideTitle}>참가자의 북번호를 알려주세요. <span className={seglink + " ml-2 " + segInsideP} onClick={onHowtoAlert}>방법</span></div>
-                                <input className={inputDiv} type="text" id="taikoId" name="taikoId" value={inputs.taikoId} placeholder='숫자로 12글자 입력 (필수 항목, 중복 불가)' onChange={onChange} />
-                                <div className={segInsideTitle}>참가자의 이메일 연락처를 알려주세요.</div>
-                                <input className={inputDiv} type="text" id="contacts" name="contacts" value={inputs.contacts} placeholder='이메일 형식으로 입력 (example@test.com)' onChange={onChange} />
+                                <div className={segInsideTitle}>참가자 이름</div>
+                                <div className={segInsideP + ' mb-1'}>참가자 이름을 알려주세요.</div>
+                                <div className={segInsideP + ' mb-4'}>이모지랑 특수문자({'<>:"'+"'"+'/\|?!*#@='})와 공백이 포함될 경우 참가가 되지 않습니다.</div>
+                                <input className={inputDiv} type="text" id="entryName" name="entryName" value={inputs.entryName} placeholder='최소 2글자 최대 10글자까지 입력가능 (필수 항목, 중복 불가)' onChange={onChange} autoFocus maxLength={10}/>
+                                <div className={segInsideTitle}>북번호 </div>
+                                <div className={segInsideP + ' mb-1'}>참가자의 북번호를 알려주세요. <span className={seglink + " ml-2 hidden sm:inline " + segInsideP} onClick={onHowtoAlert}>확인 방법</span></div>
+                                <div className={segInsideP + ' mb-4 flex sm:hidden'}><span className={seglink + " " + segInsideP} onClick={onHowtoAlert}>확인 방법</span></div>
+                                <input className={inputDiv} type="text" id="taikoId" name="taikoId" value={inputs.taikoId} placeholder='숫자로 12글자 입력 (필수 항목, 중복 불가)' onChange={onChange} maxLength={12}/>
+                                <div className={segInsideTitle}>연락처</div>
+                                <div className={segInsideP + ' mb-4'}>참가자의 이메일 연락처를 알려주세요.</div>
+                                <input className={inputDiv} type="text" id="contacts" name="contacts" value={inputs.contacts} placeholder='이메일 형식으로 입력 (example@test.com)' onChange={onChange} maxLength={30}/>
                                 <div className='flex flex-col items-center w-full h-auto mt-6'>
                                     <button className={inputButton} type="submit" onClick={Submit}>참가하기</button>
                                 </div>

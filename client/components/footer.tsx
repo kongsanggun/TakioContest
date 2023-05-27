@@ -13,8 +13,8 @@ const Footer = () => {
                     <div><del className='text-gray-400' title="진실된 발언" >누니머기는 엉덩이가 아닙니다!</del></div>
                     <div><a href="https://www.pokemon.com/us/pokedex/snom" target="_blank" rel="noopener noreferrer"><del className='text-gray-400'>누니머기가 무엇인가요?</del></a></div>
                 </div>
-                <div className='w-[10vw] sm:w-[15vw] h-full text-[#121316] flex items-center justify-center'>
-                    <a href="https://github.com/kongsanggun" target="_blank" rel="noopener noreferrer"><Image src={GitHub} className='w-[40px] h-[40px]' alt='github'></Image></a>
+                <div className='w-[10vw] sm:w-[15vw] min-w-[40px] h-full text-[#121316] flex items-center justify-center'>
+                    <a href="https://github.com/kongsanggun" target="_blank" rel="noopener noreferrer"><Image src={GitHub} className='w-7 h-7 sm:w-10 sm:h-10' alt='github'></Image></a>
                 </div>
             </div>
         </footer>

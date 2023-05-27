@@ -29,6 +29,9 @@ export default function Entry() {
     const [songScore2C] = useState([]);
     const [songScore3C] = useState([]);
 
+    const [compareStart, setCompareStart] = useState(0);
+    const [compareEnd, setCompareEnd] = useState(0);
+
     // 주로 자주 사용하는 CSS 정리
     const mainDiv = "w-full h-auto flex flex-col items-center"
     const segDiv = "w-[80vw] sm:w-[70vw] h-auto py-10 text-[#121316] text-sm sm:text-base flex flex-col font-['SDKukdetopokki-Lt']"
@@ -40,14 +43,12 @@ export default function Entry() {
     const active = "w-auto h-full text-base sm:text-xl font-['SDKukdetopokki'] mr-10 text-[#245A8D] border-b-2 border-b-[#245A8D]"
     const nonActive = "w-auto h-full text-base sm:text-xl font-['SDKukdetopokki-Lt'] mr-10 text-[#121316] border-b-[#245A8D] hover:text-[#245A8D] hover:border-b-2 duration-150"
 
-    const compareStart = Number(dates.start.replaceAll("-", ""))
-    const now = Number(new Date().toISOString().split('T')[0].replaceAll("-", ""))
-
-    const puls = new Date()
+    const offset = new Date().getTimezoneOffset() * 60000; // 시차 간격 맞추기;;
+    const now = Number(new Date(Date.now() - offset).toISOString().split('T')[0].replaceAll("-", ""))
+    
+    const puls = new Date(Date.now() - offset)
     puls.setDate(puls.getDate() + 3)
-
-    const now2 = Number(new Date().toISOString().split('T')[0].replaceAll("-", ""))
-    const compareEnd = Number(dates.end.replaceAll("-", ""))
+    const now2 = Number(new Date(puls).toISOString().split('T')[0].replaceAll("-", ""))
 
     useEffect(() => {
         init();
@@ -75,6 +76,9 @@ export default function Entry() {
                     start: start,
                     end: end
                 });
+
+                setCompareStart(Number(dates.start.replaceAll("-", "")));
+                setCompareEnd(Number(dates.end.replaceAll("-", "")));
 
             });
             // TODO : 마감 시간 임박 시 정보 가리기
