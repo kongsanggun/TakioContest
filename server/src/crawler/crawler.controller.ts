@@ -8,9 +8,13 @@ import { ExceptionHandler } from '../common/exceptionHandler';
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 
-  @Cron('0 00 06 * * *')
-  //@Get('/test')
+  @Cron('0 0 9 * * *')
   getRanking() {
+    return this.crawlerService.crawler();
+  } // 히로바에서 점수 데이터 가져와서 갱신하기
+
+  @Cron('0 0 21 * * *')
+  getRanking2() {
     return this.crawlerService.crawler();
   } // 히로바에서 점수 데이터 가져와서 갱신하기
 }

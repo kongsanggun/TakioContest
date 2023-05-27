@@ -27,6 +27,8 @@ export class EntryService {
     }
 
     await this.create(dto);
+    await this.initScore(dto.taikoId);
+
     return 'Done';
   }
 
@@ -47,6 +49,19 @@ export class EntryService {
   private async create(dto: CreateEntrantDto) {
     try {
       await this.entrantRepository.save(dto);
+    } catch (error) {
+      throw new ServiceUnavailableException('생성 중 에러가 발생했습니다.');
+    }
+  }
+
+  private async initScore(taikoId: string) {
+    try {
+      await this.entrantRepository
+        .createQueryBuilder('score')
+        .update('entrant')
+        .set({ songScore1: 0, songScore2: 0, songScore3: 0 })
+        .where('taikoId = :taikoId', { taikoId: taikoId })
+        .execute();
     } catch (error) {
       throw new ServiceUnavailableException('생성 중 에러가 발생했습니다.');
     }

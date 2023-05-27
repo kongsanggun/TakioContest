@@ -218,7 +218,7 @@ export default function Entry() {
                     <div className={segDiv + " border-b-[1.5px] border-b-[#dfe0ea]"}>
                         <div className={segTitle}>참가자 랭킹</div>
                         <div className={segp + " mb-1"}>Do the G 2023 대회의 순위를 나타냅니다.</div>
-                        <div className={segp + " mb-1"}>랭킹 갱신은 매일 06:00에 갱신됩니다.</div>
+                        <div className={segp + " mb-1"}>랭킹 갱신은 매일 갱신됩니다.</div>
                         <div className={segp}>참가 기간 : {dates.start} ~ {dates.end}</div>
                     </div>
                     <div className={segDiv + " pt-4"}>

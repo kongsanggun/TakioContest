@@ -27,11 +27,11 @@ export class CrawlerService {
     let count = 3;
     const contestId = process.env.CONTEST_ID;
 
-    /*this.logger.debug('0. 대회날짜 확인');
+    this.logger.debug('0. 대회날짜 확인');
     const coninfo = this.getConInfo(contestId);
     if ((await coninfo).length == 0) {
       throw new ServiceUnavailableException('해당 대회 날짜가 아닙니다.');
-    }*/
+    }
 
     this.logger.debug(
       '1. compe 정보 가져오기 (기준을 어제, 범위 시작 <= 어제 <= 종료',
@@ -69,7 +69,7 @@ export class CrawlerService {
           contestId: contestId,
         })
         .andWhere(':now between coninfo.startAt and coninfo.endAt', {
-          now: new Date().toISOString().split('T')[0],
+          now: new Date(),
         })
         .getMany();
     } catch (error) {
@@ -87,7 +87,7 @@ export class CrawlerService {
           'compe.compeId': 'ASC',
         })
         .andWhere(':now between compe.startAt and compe.endAt', {
-          now: new Date().toISOString().split('T')[0],
+          now: new Date(),
         })
         .getMany();
     } catch (error) {
@@ -136,8 +136,8 @@ export class CrawlerService {
       .createQueryBuilder('entrant')
       .delete()
       .where('songScore1 = 0 AND songScore2 = 0 AND songScore3 = 0')
-      .andWhere(':now >= expiredAt', {
-        now: new Date().toISOString().split('T')[0],
+      .andWhere(':now > expiredAt', {
+        now: new Date(),
       })
       .execute();
 
