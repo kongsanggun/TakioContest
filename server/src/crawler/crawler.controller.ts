@@ -8,6 +8,7 @@ import { ExceptionHandler } from '../common/exceptionHandler';
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 
+  // TODO : Cron 갱신이 되지 않음
   @Cron('0 0 9 * * *')
   getRanking() {
     return this.crawlerService.crawler();

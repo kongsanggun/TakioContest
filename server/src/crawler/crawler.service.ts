@@ -100,7 +100,6 @@ export class CrawlerService {
   private async updateEntrant(entrantData: []) {
     for (const data of entrantData) {
       const Entrant = await this.findEntrant(data);
-      this.logger.log(`참가자 조회 결과 : ${Entrant}`);
       if (!Entrant) {
         continue;
       }
@@ -249,8 +248,8 @@ export class CrawlerService {
                   i + 1
                 }) > div.clearfix.player-info > img`,
               )
-              .getAttribute('src');
-            const id = userImg.slice(-12);
+              .getAttribute('onclick');
+            const id = userImg.slice(-13, -1);
 
             const songDetail = [];
 
