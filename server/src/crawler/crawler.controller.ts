@@ -8,14 +8,19 @@ import { ExceptionHandler } from '../common/exceptionHandler';
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 
-  // TODO : Cron 갱신이 되지 않음
-  @Cron('0 0 9 * * *')
-  getRanking() {
+  @Cron('0 0 6 * * *', {
+    name: 'getRankingAM',
+    timeZone: 'Asia/Seoul',
+  })
+  getRankingAM() {
     return this.crawlerService.crawler();
   } // 히로바에서 점수 데이터 가져와서 갱신하기
 
-  @Cron('0 0 21 * * *')
-  getRanking2() {
+  @Cron('0 0 18 * * *', {
+    name: 'getRankingPM',
+    timeZone: 'Asia/Seoul',
+  })
+  getRankingPM() {
     return this.crawlerService.crawler();
   } // 히로바에서 점수 데이터 가져와서 갱신하기
 }
