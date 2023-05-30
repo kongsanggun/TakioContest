@@ -291,6 +291,7 @@ export class CrawlerService {
       await browser.close();
       return null;
     }
+    await browser.close();
     return result;
   }
 }
