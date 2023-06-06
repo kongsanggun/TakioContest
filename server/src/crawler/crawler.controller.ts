@@ -1,5 +1,5 @@
 import { Cron } from '@nestjs/schedule';
-import { Controller, Get, UseFilters } from '@nestjs/common';
+import { Controller, UseFilters } from '@nestjs/common';
 import { CrawlerService } from './crawler.service';
 import { ExceptionHandler } from '../common/exceptionHandler';
 
@@ -8,19 +8,11 @@ import { ExceptionHandler } from '../common/exceptionHandler';
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 
-  @Cron('0 0 6 * * *', {
+  @Cron('0 0 8 * * *', {
     name: 'getRankingAM',
     timeZone: 'Asia/Seoul',
   })
-  getRankingAM() {
-    return this.crawlerService.crawler();
-  } // 히로바에서 점수 데이터 가져와서 갱신하기
-
-  @Cron('0 0 18 * * *', {
-    name: 'getRankingPM',
-    timeZone: 'Asia/Seoul',
-  })
-  getRankingPM() {
+  getRanking() {
     return this.crawlerService.crawler();
   } // 히로바에서 점수 데이터 가져와서 갱신하기
 }
